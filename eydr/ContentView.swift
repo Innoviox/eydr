@@ -17,6 +17,7 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
     
     @State var count = 0
+    @State var is0 = true
 
     var body: some View {
         VStack (alignment: .leading) {
@@ -24,25 +25,18 @@ struct ContentView: View {
                 Button(action: {
                     if count > 0 {
                         count -= 1
+                        is0 = count == 0
                     }
                 }, label: {
                     Text("-")
-                })
+                }).disabled(is0)
                 Text("\(count)")
                 Button(action: {
                     count += 1
+                    is0 = count == 0
                 }, label: {
                     Text("+")
                 })
-            }
-        }
-        .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
-
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
             }
         }
     }
