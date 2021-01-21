@@ -1,0 +1,606 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2093F69825BA25CC008EB2CD /* eydrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F69725BA25CC008EB2CD /* eydrApp.swift */; };
+		2093F69A25BA25CC008EB2CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F69925BA25CC008EB2CD /* ContentView.swift */; };
+		2093F69C25BA25CD008EB2CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2093F69B25BA25CD008EB2CD /* Assets.xcassets */; };
+		2093F69F25BA25CD008EB2CD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2093F69E25BA25CD008EB2CD /* Preview Assets.xcassets */; };
+		2093F6A125BA25CD008EB2CD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6A025BA25CD008EB2CD /* Persistence.swift */; };
+		2093F6A425BA25CD008EB2CD /* eydr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6A225BA25CD008EB2CD /* eydr.xcdatamodeld */; };
+		2093F6AF25BA25CD008EB2CD /* eydrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6AE25BA25CD008EB2CD /* eydrTests.swift */; };
+		2093F6BA25BA25CD008EB2CD /* eydrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6B925BA25CD008EB2CD /* eydrUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2093F6AB25BA25CD008EB2CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2093F68C25BA25CC008EB2CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2093F69325BA25CC008EB2CD;
+			remoteInfo = eydr;
+		};
+		2093F6B625BA25CD008EB2CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2093F68C25BA25CC008EB2CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2093F69325BA25CC008EB2CD;
+			remoteInfo = eydr;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2093F69425BA25CC008EB2CD /* eydr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eydr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2093F69725BA25CC008EB2CD /* eydrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eydrApp.swift; sourceTree = "<group>"; };
+		2093F69925BA25CC008EB2CD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2093F69B25BA25CD008EB2CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2093F69E25BA25CD008EB2CD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2093F6A025BA25CD008EB2CD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		2093F6A325BA25CD008EB2CD /* eydr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = eydr.xcdatamodel; sourceTree = "<group>"; };
+		2093F6A525BA25CD008EB2CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2093F6AA25BA25CD008EB2CD /* eydrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eydrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2093F6AE25BA25CD008EB2CD /* eydrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eydrTests.swift; sourceTree = "<group>"; };
+		2093F6B025BA25CD008EB2CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2093F6B525BA25CD008EB2CD /* eydrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eydrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2093F6B925BA25CD008EB2CD /* eydrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eydrUITests.swift; sourceTree = "<group>"; };
+		2093F6BB25BA25CD008EB2CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2093F69125BA25CC008EB2CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2093F6A725BA25CD008EB2CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2093F6B225BA25CD008EB2CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2093F68B25BA25CC008EB2CD = {
+			isa = PBXGroup;
+			children = (
+				2093F69625BA25CC008EB2CD /* eydr */,
+				2093F6AD25BA25CD008EB2CD /* eydrTests */,
+				2093F6B825BA25CD008EB2CD /* eydrUITests */,
+				2093F69525BA25CC008EB2CD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2093F69525BA25CC008EB2CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2093F69425BA25CC008EB2CD /* eydr.app */,
+				2093F6AA25BA25CD008EB2CD /* eydrTests.xctest */,
+				2093F6B525BA25CD008EB2CD /* eydrUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2093F69625BA25CC008EB2CD /* eydr */ = {
+			isa = PBXGroup;
+			children = (
+				2093F69725BA25CC008EB2CD /* eydrApp.swift */,
+				2093F69925BA25CC008EB2CD /* ContentView.swift */,
+				2093F69B25BA25CD008EB2CD /* Assets.xcassets */,
+				2093F6A025BA25CD008EB2CD /* Persistence.swift */,
+				2093F6A525BA25CD008EB2CD /* Info.plist */,
+				2093F6A225BA25CD008EB2CD /* eydr.xcdatamodeld */,
+				2093F69D25BA25CD008EB2CD /* Preview Content */,
+			);
+			path = eydr;
+			sourceTree = "<group>";
+		};
+		2093F69D25BA25CD008EB2CD /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2093F69E25BA25CD008EB2CD /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2093F6AD25BA25CD008EB2CD /* eydrTests */ = {
+			isa = PBXGroup;
+			children = (
+				2093F6AE25BA25CD008EB2CD /* eydrTests.swift */,
+				2093F6B025BA25CD008EB2CD /* Info.plist */,
+			);
+			path = eydrTests;
+			sourceTree = "<group>";
+		};
+		2093F6B825BA25CD008EB2CD /* eydrUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2093F6B925BA25CD008EB2CD /* eydrUITests.swift */,
+				2093F6BB25BA25CD008EB2CD /* Info.plist */,
+			);
+			path = eydrUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2093F69325BA25CC008EB2CD /* eydr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2093F6BE25BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydr" */;
+			buildPhases = (
+				2093F69025BA25CC008EB2CD /* Sources */,
+				2093F69125BA25CC008EB2CD /* Frameworks */,
+				2093F69225BA25CC008EB2CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = eydr;
+			productName = eydr;
+			productReference = 2093F69425BA25CC008EB2CD /* eydr.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2093F6A925BA25CD008EB2CD /* eydrTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2093F6C125BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydrTests" */;
+			buildPhases = (
+				2093F6A625BA25CD008EB2CD /* Sources */,
+				2093F6A725BA25CD008EB2CD /* Frameworks */,
+				2093F6A825BA25CD008EB2CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2093F6AC25BA25CD008EB2CD /* PBXTargetDependency */,
+			);
+			name = eydrTests;
+			productName = eydrTests;
+			productReference = 2093F6AA25BA25CD008EB2CD /* eydrTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2093F6B425BA25CD008EB2CD /* eydrUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2093F6C425BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydrUITests" */;
+			buildPhases = (
+				2093F6B125BA25CD008EB2CD /* Sources */,
+				2093F6B225BA25CD008EB2CD /* Frameworks */,
+				2093F6B325BA25CD008EB2CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2093F6B725BA25CD008EB2CD /* PBXTargetDependency */,
+			);
+			name = eydrUITests;
+			productName = eydrUITests;
+			productReference = 2093F6B525BA25CD008EB2CD /* eydrUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2093F68C25BA25CC008EB2CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					2093F69325BA25CC008EB2CD = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					2093F6A925BA25CD008EB2CD = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 2093F69325BA25CC008EB2CD;
+					};
+					2093F6B425BA25CD008EB2CD = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 2093F69325BA25CC008EB2CD;
+					};
+				};
+			};
+			buildConfigurationList = 2093F68F25BA25CC008EB2CD /* Build configuration list for PBXProject "eydr" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2093F68B25BA25CC008EB2CD;
+			productRefGroup = 2093F69525BA25CC008EB2CD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2093F69325BA25CC008EB2CD /* eydr */,
+				2093F6A925BA25CD008EB2CD /* eydrTests */,
+				2093F6B425BA25CD008EB2CD /* eydrUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2093F69225BA25CC008EB2CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2093F69F25BA25CD008EB2CD /* Preview Assets.xcassets in Resources */,
+				2093F69C25BA25CD008EB2CD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2093F6A825BA25CD008EB2CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2093F6B325BA25CD008EB2CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2093F69025BA25CC008EB2CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2093F6A125BA25CD008EB2CD /* Persistence.swift in Sources */,
+				2093F6A425BA25CD008EB2CD /* eydr.xcdatamodeld in Sources */,
+				2093F69A25BA25CC008EB2CD /* ContentView.swift in Sources */,
+				2093F69825BA25CC008EB2CD /* eydrApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2093F6A625BA25CD008EB2CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2093F6AF25BA25CD008EB2CD /* eydrTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2093F6B125BA25CD008EB2CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2093F6BA25BA25CD008EB2CD /* eydrUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2093F6AC25BA25CD008EB2CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2093F69325BA25CC008EB2CD /* eydr */;
+			targetProxy = 2093F6AB25BA25CD008EB2CD /* PBXContainerItemProxy */;
+		};
+		2093F6B725BA25CD008EB2CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2093F69325BA25CC008EB2CD /* eydr */;
+			targetProxy = 2093F6B625BA25CD008EB2CD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2093F6BC25BA25CD008EB2CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2093F6BD25BA25CD008EB2CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2093F6BF25BA25CD008EB2CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"eydr/Preview Content\"";
+				DEVELOPMENT_TEAM = SM7F898GQH;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = eydr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.technaplex.eydr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2093F6C025BA25CD008EB2CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"eydr/Preview Content\"";
+				DEVELOPMENT_TEAM = SM7F898GQH;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = eydr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.technaplex.eydr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2093F6C225BA25CD008EB2CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SM7F898GQH;
+				INFOPLIST_FILE = eydrTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.technaplex.eydrTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eydr.app/eydr";
+			};
+			name = Debug;
+		};
+		2093F6C325BA25CD008EB2CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SM7F898GQH;
+				INFOPLIST_FILE = eydrTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.technaplex.eydrTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eydr.app/eydr";
+			};
+			name = Release;
+		};
+		2093F6C525BA25CD008EB2CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SM7F898GQH;
+				INFOPLIST_FILE = eydrUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.technaplex.eydrUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = eydr;
+			};
+			name = Debug;
+		};
+		2093F6C625BA25CD008EB2CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SM7F898GQH;
+				INFOPLIST_FILE = eydrUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.technaplex.eydrUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = eydr;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2093F68F25BA25CC008EB2CD /* Build configuration list for PBXProject "eydr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2093F6BC25BA25CD008EB2CD /* Debug */,
+				2093F6BD25BA25CD008EB2CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2093F6BE25BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2093F6BF25BA25CD008EB2CD /* Debug */,
+				2093F6C025BA25CD008EB2CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2093F6C125BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydrTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2093F6C225BA25CD008EB2CD /* Debug */,
+				2093F6C325BA25CD008EB2CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2093F6C425BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydrUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2093F6C525BA25CD008EB2CD /* Debug */,
+				2093F6C625BA25CD008EB2CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2093F6A225BA25CD008EB2CD /* eydr.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2093F6A325BA25CD008EB2CD /* eydr.xcdatamodel */,
+			);
+			currentVersion = 2093F6A325BA25CD008EB2CD /* eydr.xcdatamodel */;
+			path = eydr.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 2093F68C25BA25CC008EB2CD /* Project object */;
+}
