@@ -38,7 +38,8 @@ struct ContentView: View {
                     Text("+")
                 })
             }
-        }
+            .padding()
+        }.border(Color.black)
     }
 
     private func addItem() {
