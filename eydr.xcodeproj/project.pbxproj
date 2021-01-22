@@ -16,6 +16,7 @@
 		2093F6AF25BA25CD008EB2CD /* eydrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6AE25BA25CD008EB2CD /* eydrTests.swift */; };
 		2093F6BA25BA25CD008EB2CD /* eydrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6B925BA25CD008EB2CD /* eydrUITests.swift */; };
 		2093F6CD25BA55FB008EB2CD /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2093F6CC25BA55FB008EB2CD /* HealthKit.framework */; };
+		2093F6D225BA5DFB008EB2CD /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6D125BA5DFB008EB2CD /* HistoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		2093F6BB25BA25CD008EB2CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2093F6CA25BA55FA008EB2CD /* eydr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eydr.entitlements; sourceTree = "<group>"; };
 		2093F6CC25BA55FB008EB2CD /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		2093F6D125BA5DFB008EB2CD /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				2093F6A525BA25CD008EB2CD /* Info.plist */,
 				2093F6A225BA25CD008EB2CD /* eydr.xcdatamodeld */,
 				2093F69D25BA25CD008EB2CD /* Preview Content */,
+				2093F6D125BA5DFB008EB2CD /* HistoryView.swift */,
 			);
 			path = eydr;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 			files = (
 				2093F6A125BA25CD008EB2CD /* Persistence.swift in Sources */,
 				2093F6A425BA25CD008EB2CD /* eydr.xcdatamodeld in Sources */,
+				2093F6D225BA5DFB008EB2CD /* HistoryView.swift in Sources */,
 				2093F69A25BA25CC008EB2CD /* ContentView.swift in Sources */,
 				2093F69825BA25CC008EB2CD /* eydrApp.swift in Sources */,
 			);

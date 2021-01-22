@@ -29,32 +29,32 @@ struct ContentView: View {
             .frame(maxWidth: .infinity)
             
             Map(coordinateRegion: $region)
+                .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
             
             makeSteps()
         }
     }
     
-    func makeBox(i: Int) -> AnyView {
-        return AnyView(HStack {
-                            Button(action: {
-                                if counts[i] > 0 {
-                                    counts[i] -= 1
-                                    is0[i] = counts[i] == 0
-                                }
-                            }, label: {
-                                Text("-").font(FONT)
-                            }).disabled(is0[i])
-                            Text("\(counts[i])").font(FONT)
-                            Button(action: {
-                                counts[i] += 1
-                                is0[i] = counts[i] == 0
-                            }, label: {
-                                Text("+").font(FONT)
-                            })
-                       }
-                       .padding()
-                       .border(Color.black)
-        .frame(maxWidth: .infinity))
+    func makeBox(i: Int) -> some View {
+        return HStack {
+                    Button(action: {
+                        if counts[i] > 0 {
+                            counts[i] -= 1
+                            is0[i] = counts[i] == 0
+                        }
+                    }, label: {
+                        Text("-").font(FONT)
+                    }).disabled(is0[i])
+                    Text("\(counts[i])").font(FONT)
+                    Button(action: {
+                        counts[i] += 1
+                        is0[i] = counts[i] == 0
+                    }, label: {
+                        Text("+").font(FONT)
+                    })
+               }
+               .padding()
+               .border(Color.black)
     }
     
     func makeSteps() -> AnyView {
@@ -102,30 +102,7 @@ struct ContentView: View {
 
         healthStore.execute(query)
    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

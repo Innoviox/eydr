@@ -16,16 +16,28 @@ struct eydrApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .onAppear {
-                    let allTypes = Set([HKObjectType.quantityType(forIdentifier: .stepCount)!])
+            TabView {
+                ContentView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .onAppear {
+                        let allTypes = Set([HKObjectType.quantityType(forIdentifier: .stepCount)!])
 
-                    healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
-                        if !success {
-                            // Handle the error here.
-                        }
-                    }}
+                        healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
+                            if !success {
+                                // Handle the error here.
+                            }
+                        }}
+                    .tabItem {
+                        Image(systemName: "square.and.pencil")
+                        Text("Today")
+                    }
+
+                HistoryView()
+                    .tabItem {
+                        Image(systemName: "calendar.badge.clock")
+                        Text("History")
+                    }
+            }
         }
     }
 }
