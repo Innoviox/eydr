@@ -83,8 +83,6 @@ struct ContentView: View {
     }
 
     func makeSteps() -> some View {
-//        retrieveStepCount()
-
         return HStack {
             Label {
                 Text("\(steps)")
@@ -98,6 +96,7 @@ struct ContentView: View {
             .padding()
             .frame(maxWidth: .infinity)
             .border(Color.black)
+            .onAppear(perform: retrieveStepCount)
     }
 
     func retrieveStepCount() {
