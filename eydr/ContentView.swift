@@ -20,7 +20,6 @@ struct ContentView: View {
     @State var counts = [0, 0]
     @State var is0 = [true, true]
     @State var steps = 0
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
 
     var body: some View {
         VStack {
@@ -61,11 +60,8 @@ struct ContentView: View {
     }
     
     func makeMap() -> some View {
-        return Map(coordinateRegion: $region)
+        return Map(coordinateRegion: $locationManager.region)
             .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
-            .onAppear {
-                region.center = locationManager.lastLocation!.coordinate
-            }
     }
     
     func makeSteps() -> some View {

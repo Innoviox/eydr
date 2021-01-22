@@ -8,8 +8,10 @@
 import Foundation
 import CoreLocation
 import Combine
+import MapKit
 
 class LocationManager: NSObject, ObservableObject {
+    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
 
     override init() {
         super.init()
@@ -53,7 +55,6 @@ class LocationManager: NSObject, ObservableObject {
 }
 
 extension LocationManager: CLLocationManagerDelegate {
-
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         self.locationStatus = status
         print(#function, statusString)
@@ -63,6 +64,9 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         self.lastLocation = location
         print(#function, location)
+        if lastLocation != nil {
+            region.center = lastLocation!.coordinate
+        }
     }
 
 }
