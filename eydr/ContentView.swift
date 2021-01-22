@@ -178,8 +178,8 @@ struct ContentView: View {
     
     func pause() {
         if runStr[1].starts(with: "pause") {
-            showsAlert = true
             locationManager.running = 1
+            showsAlert = true
             runStr = ["play", "stop.fill"]
         } else {
             locationManager.running = 0
