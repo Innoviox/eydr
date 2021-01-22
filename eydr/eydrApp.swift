@@ -34,6 +34,7 @@ struct eydrApp: App {
                     }
 
                 HistoryView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .tabItem {
                         Image(systemName: "calendar.badge.clock")
                         Text("History")
