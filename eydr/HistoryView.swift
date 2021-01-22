@@ -50,7 +50,8 @@ struct HistoryView: View {
     func loadData() -> AnyView {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
         do {
-            let fetched = try viewContext.fetch(fetchRequest) as! [Item]
+            var fetched = try viewContext.fetch(fetchRequest) as! [Item]
+            fetched.sort { $0.timestamp! < $1.timestamp! }
             
             let topHeights = makeBarHeights(fetched) { CGFloat($0.morning + $0.afternoon) }
             let botHeights = makeBarHeights(fetched) { CGFloat($0.steps) }
