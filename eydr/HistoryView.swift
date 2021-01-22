@@ -14,7 +14,7 @@ func makeBarHeights(_ items: [Item], getter: (Item) -> CGFloat) -> [CGFloat] {
     let min = heights.min()!, max = heights.max()!
     
     
-    return heights.map { ($0 - min) / (max - min) }
+    return heights.map { $0 / (max == 0 ? 1 : max) * 200 }
 }
 
 struct BarView: View{
@@ -26,7 +26,7 @@ struct BarView: View{
         VStack {
             ZStack (alignment: .bottom) {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .frame(width: 30, height: 200).foregroundColor(.black)
+                    .frame(width: 30, height: 200).foregroundColor(.white)
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .frame(width: 30, height: value).foregroundColor(.green)
                 
@@ -52,9 +52,11 @@ struct HistoryView: View {
             
             let topHeights = makeBarHeights(fetched) { CGFloat($0.morning + $0.afternoon) }
             let botHeights = makeBarHeights(fetched) { CGFloat($0.steps) }
+            
+            print(topHeights, botHeights)
 
             return AnyView(HStack {
-                ForEach(1...(fetched.count - 1), id: \.self) { i in
+                ForEach(0...(fetched.count - 1), id: \.self) { i in
                     let item = fetched[i]
                     VStack {
                         BarView(value: topHeights[i], cornerRadius: 1)
