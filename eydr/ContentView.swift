@@ -177,7 +177,14 @@ struct ContentView: View {
     }
     
     func pause() {
-        showsAlert = true
+        if runStr[1].starts(with: "pause") {
+            showsAlert = true
+            locationManager.running = 1
+            runStr = ["play", "stop.fill"]
+        } else {
+            locationManager.running = 0
+            runStr = ["play.fill", "pause"]
+        }
     }
 }
 
