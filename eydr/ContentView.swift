@@ -60,8 +60,8 @@ struct ContentView: View {
     }
     
     func makeMap() -> some View {
-        return Map(coordinateRegion: $locationManager.region)
-            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+        return Map(coordinateRegion: $locationManager.region, showsUserLocation: true)
+            .border(Color.black)
     }
     
     func makeSteps() -> some View {
