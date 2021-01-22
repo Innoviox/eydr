@@ -15,6 +15,8 @@ let FONT: Font = .system(size: 60)
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
+    @ObservedObject var locationManager = LocationManager()
+    
     @State var counts = [0, 0]
     @State var is0 = [true, true]
     @State var steps = 0
@@ -28,8 +30,7 @@ struct ContentView: View {
             }
             .frame(maxWidth: .infinity)
             
-            Map(coordinateRegion: $region)
-                .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+            makeMap()
             
             makeSteps()
         }
@@ -57,10 +58,18 @@ struct ContentView: View {
                .border(Color.black)
     }
     
-    func makeSteps() -> AnyView {
+    func makeMap() -> some View {
+        return Map(coordinateRegion: $region)
+            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+            .onAppear {
+                region.center = locationManager.lastLocation!.coordinate
+            }
+    }
+    
+    func makeSteps() -> some View {
         retrieveStepCount()
         
-        return AnyView(HStack {
+        return HStack {
             Label {
                 Text("\(steps)")
                     .font(.title)
@@ -72,7 +81,7 @@ struct ContentView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .border(Color.black))
+        .border(Color.black)
     }
     
     func retrieveStepCount() {

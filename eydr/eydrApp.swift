@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 import HealthKit
 
 let healthStore = HKHealthStore()
