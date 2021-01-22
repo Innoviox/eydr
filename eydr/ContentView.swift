@@ -76,28 +76,15 @@ struct ContentView: View {
     }
     
     func retrieveStepCount() {
-        let stepsCount = HKQuantityType.quantityType(forIdentifier: .stepCount)
-
         let date = Date()
-        let cal = Calendar(identifier: Calendar.Identifier.gregorian)
-        let newDate = cal.startOfDay(for: date)
+        let newDate = Calendar(identifier: Calendar.Identifier.gregorian).startOfDay(for: date)
 
-        let predicate = HKQuery.predicateForSamples(withStart: newDate, end: Date(), options: .strictStartDate)
-        var interval = DateComponents()
-        interval.day = 1
-
-        let query = HKStatisticsCollectionQuery(quantityType: stepsCount!, quantitySamplePredicate: predicate, options: [.cumulativeSum], anchorDate: newDate as Date, intervalComponents:interval)
+        let query = HKStatisticsCollectionQuery(quantityType: HKQuantityType.quantityType(forIdentifier: .stepCount)!, quantitySamplePredicate: HKQuery.predicateForSamples(withStart: newDate, end: Date(), options: .strictStartDate), options: [.cumulativeSum], anchorDate: newDate as Date, intervalComponents: DateComponents(day: 1))
 
         query.initialResultsHandler = { query, results, error in
-            if error != nil { return }
+            if error != nil || results == nil { return }
 
-            if let r = results {
-                r.enumerateStatistics(from: newDate, to: date) { statistics, stop in
-                    if let quantity = statistics.sumQuantity() {
-                        self.steps = Int(quantity.doubleValue(for: HKUnit.count()))
-                    }
-                }
-            }
+            results!.enumerateStatistics(from: newDate, to: date) { s, _ in self.steps = Int(s.sumQuantity()!.doubleValue(for: HKUnit.count())) }
         }
 
         healthStore.execute(query)
