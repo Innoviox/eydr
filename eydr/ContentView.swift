@@ -168,6 +168,10 @@ struct ContentView: View {
         i.morning = Int16(counts[0])
         i.afternoon = Int16(counts[1])
         i.steps = Int16(steps)
+        
+        i.length = locationManager.length
+        i.time = locationManager.time
+        i.route = locationManager.route
     }
     
     func start() {
@@ -184,6 +188,7 @@ struct ContentView: View {
         } else {
             locationManager.running = 0
             runStr = ["play.fill", "pause"]
+            updateToday()
         }
     }
 }
