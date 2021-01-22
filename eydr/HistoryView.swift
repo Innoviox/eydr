@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+//import PopupView
 
 func makeBarHeights(_ items: [Item], getter: (Item) -> CGFloat) -> [CGFloat] {
     let heights = items.map(getter)
@@ -38,6 +39,7 @@ struct BarView: View{
 struct HistoryView: View {
     @Environment(\.calendar) var calendar
     @Environment(\.managedObjectContext) private var viewContext
+    @State var showingPopup = false
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -60,10 +62,22 @@ struct HistoryView: View {
                     let item = fetched[i]
                     VStack {
                         BarView(value: topHeights[i], cornerRadius: 1)
-                        Text("\(item.timestamp!.get(.day))")
-                            .padding(8)
-                            .background(Color.blue)
-                            .cornerRadius(8)
+//                        Text("\(item.timestamp!.get(.day))")
+//                            .padding(8)
+//                            .background(Color.blue)
+//                            .cornerRadius(8)
+//                        Button(action: {
+//                                    self.showingPopup.toggle()
+//                                }) {
+//                                    Text("Show Detail")
+//                                }.popup(isPresented: $showingPopup, autohideIn: 2) {
+//                                    HStack {
+//                                        Text("The popup")
+//                                    }
+//                                    .frame(width: 200, height: 60)
+//                                    .background(Color(red: 0.85, green: 0.8, blue: 0.95))
+//                                    .cornerRadius(30.0)
+//                                }
                         BarView(value: botHeights[i], cornerRadius: 1)
                     }
                 }
@@ -79,5 +93,11 @@ struct HistoryView: View {
 struct HistoryView_Previews: PreviewProvider {
     static var previews: some View {
         HistoryView()
+    }
+}
+
+struct DetailView: View {
+    var body: some View {
+        Text("Detail")
     }
 }

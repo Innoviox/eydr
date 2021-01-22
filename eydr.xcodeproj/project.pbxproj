@@ -19,6 +19,9 @@
 		2093F6BA25BA25CD008EB2CD /* eydrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6B925BA25CD008EB2CD /* eydrUITests.swift */; };
 		2093F6CD25BA55FB008EB2CD /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2093F6CC25BA55FB008EB2CD /* HealthKit.framework */; };
 		2093F6D225BA5DFB008EB2CD /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F6D125BA5DFB008EB2CD /* HistoryView.swift */; };
+		482A780BBD3249E60C385C0D /* Pods_eydr_eydrUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65894ECBDBF1D5E112E146F1 /* Pods_eydr_eydrUITests.framework */; };
+		A6776B6F67771F5B5382BBB1 /* Pods_eydrTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1916A72417709ED0311E34F6 /* Pods_eydrTests.framework */; };
+		F100744E02E65B12CE5A7A4E /* Pods_eydr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD0621D7FA2F02B7AA11A32 /* Pods_eydr.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0689124A9D582BA04E65D178 /* Pods-eydr-eydrUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eydr-eydrUITests.debug.xcconfig"; path = "Target Support Files/Pods-eydr-eydrUITests/Pods-eydr-eydrUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		1916A72417709ED0311E34F6 /* Pods_eydrTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eydrTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		203BFBC225BA686300357C38 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		206A1AE725BB538100A82166 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2093F69425BA25CC008EB2CD /* eydr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eydr.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +63,13 @@
 		2093F6CA25BA55FA008EB2CD /* eydr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eydr.entitlements; sourceTree = "<group>"; };
 		2093F6CC25BA55FB008EB2CD /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		2093F6D125BA5DFB008EB2CD /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		51EC229B9C2752183B4BDCE2 /* Pods-eydrTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eydrTests.release.xcconfig"; path = "Target Support Files/Pods-eydrTests/Pods-eydrTests.release.xcconfig"; sourceTree = "<group>"; };
+		640DAD9BCB9AF24C11AAD0DD /* Pods-eydr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eydr.debug.xcconfig"; path = "Target Support Files/Pods-eydr/Pods-eydr.debug.xcconfig"; sourceTree = "<group>"; };
+		65894ECBDBF1D5E112E146F1 /* Pods_eydr_eydrUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eydr_eydrUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FD0621D7FA2F02B7AA11A32 /* Pods_eydr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eydr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		89B7B55536930AD8F3563A06 /* Pods-eydrTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eydrTests.debug.xcconfig"; path = "Target Support Files/Pods-eydrTests/Pods-eydrTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AB21C4C9EE16C5AC182039FF /* Pods-eydr-eydrUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eydr-eydrUITests.release.xcconfig"; path = "Target Support Files/Pods-eydr-eydrUITests/Pods-eydr-eydrUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D1B2F61FF6BB0DA9713ED644 /* Pods-eydr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eydr.release.xcconfig"; path = "Target Support Files/Pods-eydr/Pods-eydr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2093F6CD25BA55FB008EB2CD /* HealthKit.framework in Frameworks */,
+				F100744E02E65B12CE5A7A4E /* Pods_eydr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6776B6F67771F5B5382BBB1 /* Pods_eydrTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				482A780BBD3249E60C385C0D /* Pods_eydr_eydrUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +109,7 @@
 				2093F6B825BA25CD008EB2CD /* eydrUITests */,
 				2093F69525BA25CC008EB2CD /* Products */,
 				2093F6CB25BA55FB008EB2CD /* Frameworks */,
+				79216F842C6F22C79D36A7A8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,8 +171,25 @@
 			isa = PBXGroup;
 			children = (
 				2093F6CC25BA55FB008EB2CD /* HealthKit.framework */,
+				6FD0621D7FA2F02B7AA11A32 /* Pods_eydr.framework */,
+				65894ECBDBF1D5E112E146F1 /* Pods_eydr_eydrUITests.framework */,
+				1916A72417709ED0311E34F6 /* Pods_eydrTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		79216F842C6F22C79D36A7A8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				640DAD9BCB9AF24C11AAD0DD /* Pods-eydr.debug.xcconfig */,
+				D1B2F61FF6BB0DA9713ED644 /* Pods-eydr.release.xcconfig */,
+				0689124A9D582BA04E65D178 /* Pods-eydr-eydrUITests.debug.xcconfig */,
+				AB21C4C9EE16C5AC182039FF /* Pods-eydr-eydrUITests.release.xcconfig */,
+				89B7B55536930AD8F3563A06 /* Pods-eydrTests.debug.xcconfig */,
+				51EC229B9C2752183B4BDCE2 /* Pods-eydrTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,9 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2093F6BE25BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydr" */;
 			buildPhases = (
+				B8911D2D1771501B94B8DCAA /* [CP] Check Pods Manifest.lock */,
 				2093F69025BA25CC008EB2CD /* Sources */,
 				2093F69125BA25CC008EB2CD /* Frameworks */,
 				2093F69225BA25CC008EB2CD /* Resources */,
+				F8B9B9F71728885B6DD49DBE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -183,6 +218,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2093F6C125BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydrTests" */;
 			buildPhases = (
+				504BB4A3058ED13B4EAE427C /* [CP] Check Pods Manifest.lock */,
 				2093F6A625BA25CD008EB2CD /* Sources */,
 				2093F6A725BA25CD008EB2CD /* Frameworks */,
 				2093F6A825BA25CD008EB2CD /* Resources */,
@@ -201,9 +237,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2093F6C425BA25CD008EB2CD /* Build configuration list for PBXNativeTarget "eydrUITests" */;
 			buildPhases = (
+				369BD53587D384DECE5A5C4C /* [CP] Check Pods Manifest.lock */,
 				2093F6B125BA25CD008EB2CD /* Sources */,
 				2093F6B225BA25CD008EB2CD /* Frameworks */,
 				2093F6B325BA25CD008EB2CD /* Resources */,
+				0E96877D587AC6D16DCAA1E8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -282,6 +320,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E96877D587AC6D16DCAA1E8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-eydr-eydrUITests/Pods-eydr-eydrUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-eydr-eydrUITests/Pods-eydr-eydrUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-eydr-eydrUITests/Pods-eydr-eydrUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		369BD53587D384DECE5A5C4C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-eydr-eydrUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		504BB4A3058ED13B4EAE427C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-eydrTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8911D2D1771501B94B8DCAA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-eydr-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8B9B9F71728885B6DD49DBE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-eydr/Pods-eydr-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-eydr/Pods-eydr-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-eydr/Pods-eydr-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2093F69025BA25CC008EB2CD /* Sources */ = {
@@ -448,6 +589,7 @@
 		};
 		2093F6BF25BA25CD008EB2CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 640DAD9BCB9AF24C11AAD0DD /* Pods-eydr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -471,6 +613,7 @@
 		};
 		2093F6C025BA25CD008EB2CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1B2F61FF6BB0DA9713ED644 /* Pods-eydr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -494,6 +637,7 @@
 		};
 		2093F6C225BA25CD008EB2CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89B7B55536930AD8F3563A06 /* Pods-eydrTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -516,6 +660,7 @@
 		};
 		2093F6C325BA25CD008EB2CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51EC229B9C2752183B4BDCE2 /* Pods-eydrTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -538,6 +683,7 @@
 		};
 		2093F6C525BA25CD008EB2CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0689124A9D582BA04E65D178 /* Pods-eydr-eydrUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -558,6 +704,7 @@
 		};
 		2093F6C625BA25CD008EB2CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB21C4C9EE16C5AC182039FF /* Pods-eydr-eydrUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
