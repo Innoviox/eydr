@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import HealthKit
+
+let healthStore = HKHealthStore()
 
 @main
 struct eydrApp: App {
@@ -15,6 +18,14 @@ struct eydrApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .onAppear {
+                    let allTypes = Set([HKObjectType.quantityType(forIdentifier: .stepCount)!])
+
+                    healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
+                        if !success {
+                            // Handle the error here.
+                        }
+                    }}
         }
     }
 }

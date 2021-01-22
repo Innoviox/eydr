@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>$(PRODUCT_NAME) does not need access to this, but xcode makes me ask.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to read the steps.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
