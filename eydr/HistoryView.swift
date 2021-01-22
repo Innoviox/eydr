@@ -58,7 +58,7 @@ struct HistoryView: View {
             print(topHeights, botHeights)
 
             return AnyView(HStack {
-                ForEach(0...(fetched.count - 1), id: \.self) { i in
+                ForEach(0...20, id: \.self) { i in
                     let item = fetched[i]
                     VStack {
                         BarView(value: topHeights[i], cornerRadius: 1)
