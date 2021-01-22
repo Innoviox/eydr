@@ -23,7 +23,7 @@ class LocationManager: NSObject, ObservableObject {
     
     var route: [CLLocationCoordinate2D] = []
     
-    @State var polyline: MKPolyline?
+    var polyline: MKPolyline?
 
     override init() {
         super.init()
@@ -31,8 +31,6 @@ class LocationManager: NSObject, ObservableObject {
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-        
-        route.append(CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275))
     }
 
     @Published var locationStatus: CLAuthorizationStatus? {
@@ -82,7 +80,6 @@ extension LocationManager: CLLocationManagerDelegate {
             region.center = lastLocation!.coordinate
             route.append(region.center)
             polyline = MKPolyline(coordinates: route, count: route.count)
-            print(route.count)
         }
         
         if running == 2 {
@@ -104,8 +101,6 @@ extension LocationManager: MKMapViewDelegate {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = .red
         renderer.lineWidth = 1.0
-        
-        print("rendering")
     
         return renderer
     }
