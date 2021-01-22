@@ -78,8 +78,6 @@ extension LocationManager: CLLocationManagerDelegate {
 //        print(#function, location)
         if lastLocation != nil {
             region.center = lastLocation!.coordinate
-            route.append(region.center)
-            polyline = MKPolyline(coordinates: route, count: route.count)
         }
         
         if running == 2 {
@@ -92,6 +90,9 @@ extension LocationManager: CLLocationManagerDelegate {
                 length += location.distance(from: loc)
             }
             lastLoc = location
+            
+            route.append(region.center)
+            polyline = MKPolyline(coordinates: route, count: route.count)
         }
     }
 }

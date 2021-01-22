@@ -11,6 +11,7 @@ import HealthKit
 import MapKit
 
 let FONT: Font = .system(size: 60)
+let MONO: Font = .system(size: 14, design: .monospaced)
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -21,7 +22,6 @@ struct ContentView: View {
     @State var is0 = [true, true]
     @State var steps = 0
     @State var runStr = ["play", "stop"]
-    @State var showsAlert = false
 
     var body: some View {
         VStack {
@@ -43,9 +43,7 @@ struct ContentView: View {
                     Image(systemName: runStr[1])
                             .font(FONT)
                             .foregroundColor(.red)
-                }).alert(isPresented: self.$showsAlert) {
-                    Alert(title: Text("\(locationManager.length) \(locationManager.time)"))
-                }
+                })
             }
             
             makeSteps()
@@ -79,6 +77,10 @@ struct ContentView: View {
     func makeMap() -> some View {
         return MapView(route: $locationManager.polyline, locationManager: locationManager)
                         .border(Color.black)
+                        .overlay(VStack {
+                            Text("Distance: \(locationManager.length)").font(MONO)
+                            Text("Time    : \(locationManager.time)").font(MONO)
+                        }.padding().border(Color.black), alignment: .topLeading)
     }
     
     func makeSteps() -> some View {
@@ -172,6 +174,7 @@ struct ContentView: View {
         i.length = locationManager.length
         i.time = locationManager.time
         i.route = locationManager.route
+        print(locationManager.route)
     }
     
     func start() {
@@ -183,7 +186,6 @@ struct ContentView: View {
     func pause() {
         if runStr[1].starts(with: "pause") {
             locationManager.running = 1
-            showsAlert = true
             runStr = ["play", "stop.fill"]
         } else {
             locationManager.running = 0
