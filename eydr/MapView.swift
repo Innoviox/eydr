@@ -17,7 +17,7 @@ struct MapView: UIViewRepresentable {
         let map = MKMapView()
         map.setRegion(locationManager.region, animated: false)
         map.showsUserLocation = true
-        
+
         return map
     }
 

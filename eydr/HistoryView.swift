@@ -11,18 +11,18 @@ import ExytePopupView
 
 func makeBarHeights(_ items: [Item], getter: (Item) -> CGFloat) -> [CGFloat] {
     let heights = items.map(getter)
-    
+
     let /* min = heights.min()!, */ max = heights.max()!
-    
-    
+
+
     return heights.map { $0 / (max == 0 ? 1 : max) * 200 }
 }
 
-struct BarView: View{
+struct BarView: View {
 
     var value: CGFloat
     var cornerRadius: CGFloat
-    
+
     var body: some View {
         VStack {
             ZStack (alignment: .bottom) {
@@ -30,64 +30,64 @@ struct BarView: View{
                     .frame(width: 30, height: 200).foregroundColor(.white)
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .frame(width: 30, height: value).foregroundColor(.green)
-                
+
             }.padding(.bottom, 8)
         }
-        
+
     }
 }
 struct HistoryView: View {
     @Environment(\.calendar) var calendar
     @Environment(\.managedObjectContext) private var viewContext
     @State var showingPopup = false
-    
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             loadData()
+        }.popup(isPresented: $showingPopup, closeOnTapOutside: true) {
+            HStack {
+                Text("The popup")
+            }
+                .frame(width: 200, height: 60)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.red, lineWidth: 5))
         }
     }
-    
+
     func loadData() -> AnyView {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
         do {
             var fetched = try viewContext.fetch(fetchRequest) as! [Item]
             fetched.sort { $0.timestamp! < $1.timestamp! }
-            
+
             let topHeights = makeBarHeights(fetched) { CGFloat($0.morning + $0.afternoon) }
             let botHeights = makeBarHeights(fetched) { CGFloat($0.steps) }
-            
+
             print(topHeights, botHeights)
 
-            return AnyView(HStack {
-                ForEach(0...20, id: \.self) { i in
-                    let item = fetched[i]
-                    VStack {
-                        BarView(value: topHeights[i], cornerRadius: 1)
-                        Text("\(item.timestamp!.get(.day))")
-                            .padding(8)
-                            .background(Color.blue)
-                            .cornerRadius(8)
-                            .onTapGesture {
-                                self.showingPopup.toggle()
+            return AnyView(
+                HStack {
+                    ForEach(0...20, id: \.self) { i in
+                        let item = fetched[i]
+                        VStack {
+                            BarView(value: topHeights[i], cornerRadius: 1)
+                            Text("\(item.timestamp!.get(.day))")
+                                .padding(8)
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                                .onTapGesture {
+                                    self.showingPopup.toggle()
                             }
-                        BarView(value: botHeights[i], cornerRadius: 1)
+                            BarView(value: botHeights[i], cornerRadius: 1)
+                        }
                     }
                 }
-            }.popup(isPresented: $showingPopup, autohideIn: 2) {
-                HStack {
-                    Text("The popup")
-                }
-                .frame(width: 200, height: 60)
-                .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.red, lineWidth: 5)
-                        )
-                
-            })
+            )
         } catch {
             print("Failed to fetch items: \(error)")
         }
-        
+
         return AnyView(HStack { Text("Hello, World!") })
     }
 }

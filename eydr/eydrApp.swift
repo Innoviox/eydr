@@ -27,18 +27,18 @@ struct eydrApp: App {
                             if !success {
                                 // Handle the error here.
                             }
-                        }}
+                        } }
                     .tabItem {
                         Image(systemName: "square.and.pencil")
                         Text("Today")
-                    }
+                }
 
                 HistoryView()
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .tabItem {
                         Image(systemName: "calendar.badge.clock")
                         Text("History")
-                    }
+                }
             }
         }
     }

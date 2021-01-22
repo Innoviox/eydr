@@ -7,7 +7,7 @@
   - put popup in right place
   - add popup content
   - swipe gestures
-  - tap screen => goes away
+  - ~~tap screen => goes away~~
 - bar view
   - fix up/down
   - clickable?
@@ -21,3 +21,4 @@
 - statistics (third tab)
   - averages
   - badges: best day, fastest time, etc
+
