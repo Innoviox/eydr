@@ -20,6 +20,7 @@ struct ContentView: View {
     @State var counts = [0, 0]
     @State var is0 = [true, true]
     @State var steps = 0
+    @State var runStr = ["play", "stop"]
 
     var body: some View {
         VStack {
@@ -30,6 +31,19 @@ struct ContentView: View {
             .frame(maxWidth: .infinity)
             
             makeMap()
+            
+            HStack {
+                Button(action: start, label: {
+                    Image(systemName: runStr[0])
+                            .font(FONT)
+                            .foregroundColor(.green)
+                })
+                Button(action: start, label: {
+                    Image(systemName: runStr[1])
+                            .font(FONT)
+                            .foregroundColor(.red)
+                })
+            }
             
             makeSteps()
         }
@@ -151,6 +165,10 @@ struct ContentView: View {
         i.morning = Int16(counts[0])
         i.afternoon = Int16(counts[1])
         i.steps = Int16(steps)
+    }
+    
+    func start() {
+        runStr = ["play.fill", "pause"]
     }
 }
 

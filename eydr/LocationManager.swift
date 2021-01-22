@@ -12,6 +12,10 @@ import MapKit
 
 class LocationManager: NSObject, ObservableObject {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+    
+    var running = 0 // stopped => 0, paused => 1, running => 2
+    var length = 0
+    var time = 0
 
     override init() {
         super.init()
