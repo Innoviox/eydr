@@ -100,6 +100,8 @@ struct ContentView: View {
                 
                 if let item = findToday() {
                     self.counts = [Int(item.morning), Int(item.afternoon)]
+                    self.is0[0] = self.counts[0] == 0
+                    self.is0[1] = self.counts[1] == 0
                 }
                 
                 updateToday()

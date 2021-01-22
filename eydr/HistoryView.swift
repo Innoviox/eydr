@@ -13,32 +13,33 @@ struct HistoryView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
-        CalendarView(interval: calendar.dateInterval(of: .year, for: Date())!) { date in
-            Text("30")
-                .hidden()
-                .padding(8)
-                .background(Color.blue)
-                .clipShape(Circle())
-                .padding(.vertical, 4)
-                .overlay(
-                    Text(String(self.calendar.component(.day, from: date)))
-                )
+        ScrollView(.horizontal, showsIndicators: false) {
+            loadData()
         }
     }
     
-    func loadText() -> some View {
+    func loadData() -> AnyView {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
         do {
             let fetched = try viewContext.fetch(fetchRequest) as! [Item]
 
-            for item in fetched {
-                print("ITEM", item.timestamp, item.morning, item.afternoon, item.steps)
-            }
+            return AnyView(HStack {
+                ForEach(fetched, id: \.self) { item in
+                    VStack {
+                        Text("\(item.morning + item.afternoon)")
+                        Text("\(item.timestamp!.get(.day))")
+                            .padding(8)
+                            .background(Color.blue)
+                            .cornerRadius(8)
+                        Text("\(item.steps)")
+                    }
+                }
+            })
         } catch {
             print("Failed to fetch items: \(error)")
         }
         
-        return Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        return AnyView(HStack { Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/) })
     }
 }
 

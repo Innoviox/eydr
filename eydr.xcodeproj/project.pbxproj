@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		203BFBC325BA686300357C38 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203BFBC225BA686300357C38 /* LocationManager.swift */; };
-		206A1ADD25BA85A600A82166 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A1ADC25BA85A600A82166 /* Calendar.swift */; };
 		2093F69825BA25CC008EB2CD /* eydrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F69725BA25CC008EB2CD /* eydrApp.swift */; };
 		2093F69A25BA25CC008EB2CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F69925BA25CC008EB2CD /* ContentView.swift */; };
 		2093F69C25BA25CD008EB2CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2093F69B25BA25CD008EB2CD /* Assets.xcassets */; };
@@ -40,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		203BFBC225BA686300357C38 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		206A1ADC25BA85A600A82166 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		2093F69425BA25CC008EB2CD /* eydr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eydr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2093F69725BA25CC008EB2CD /* eydrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eydrApp.swift; sourceTree = "<group>"; };
 		2093F69925BA25CC008EB2CD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 		2093F69625BA25CC008EB2CD /* eydr */ = {
 			isa = PBXGroup;
 			children = (
-				206A1ADC25BA85A600A82166 /* Calendar.swift */,
 				2093F6CA25BA55FA008EB2CD /* eydr.entitlements */,
 				2093F69725BA25CC008EB2CD /* eydrApp.swift */,
 				2093F69925BA25CC008EB2CD /* ContentView.swift */,
@@ -294,7 +291,6 @@
 				2093F6D225BA5DFB008EB2CD /* HistoryView.swift in Sources */,
 				2093F69A25BA25CC008EB2CD /* ContentView.swift in Sources */,
 				2093F69825BA25CC008EB2CD /* eydrApp.swift in Sources */,
-				206A1ADD25BA85A600A82166 /* Calendar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
