@@ -9,10 +9,21 @@ import SwiftUI
 import CoreData
 
 struct HistoryView: View {
+    @Environment(\.calendar) var calendar
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
-        loadText()
+        CalendarView(interval: calendar.dateInterval(of: .year, for: Date())!) { date in
+            Text("30")
+                .hidden()
+                .padding(8)
+                .background(Color.blue)
+                .clipShape(Circle())
+                .padding(.vertical, 4)
+                .overlay(
+                    Text(String(self.calendar.component(.day, from: date)))
+                )
+        }
     }
     
     func loadText() -> some View {
