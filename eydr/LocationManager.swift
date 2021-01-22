@@ -78,10 +78,10 @@ extension LocationManager: CLLocationManagerDelegate {
         if running == 2 {
             let now = Date()
             time += lastTime.distance(to: now)
-            print(time, now, lastTime, lastTime.distance(to: now))
             lastTime = now
             
             if let loc = lastLoc {
+//                print(location, loc, location.distance(from: loc))
                 length += location.distance(from: loc)
             }
             lastLoc = location
