@@ -78,8 +78,7 @@ struct ContentView: View {
         return MapView(route: $locationManager.polyline, locationManager: locationManager)
                         .border(Color.black)
                         .overlay(VStack {
-                            Text("Distance: \(locationManager.length)").font(MONO)
-                            Text("Time    : \(locationManager.time)").font(MONO)
+                            Text(locationManager.infoString).font(MONO)
                         }.padding().border(Color.black), alignment: .topLeading)
     }
     
