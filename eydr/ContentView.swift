@@ -21,6 +21,7 @@ struct ContentView: View {
     @State var is0 = [true, true]
     @State var steps = 0
     @State var runStr = ["play", "stop"]
+    @State var showsAlert = false
 
     var body: some View {
         VStack {
@@ -38,11 +39,13 @@ struct ContentView: View {
                             .font(FONT)
                             .foregroundColor(.green)
                 })
-                Button(action: start, label: {
+                Button(action: pause, label: {
                     Image(systemName: runStr[1])
                             .font(FONT)
                             .foregroundColor(.red)
-                })
+                }).alert(isPresented: self.$showsAlert) {
+                    Alert(title: Text("\(locationManager.length) \(locationManager.time)"))
+                }
             }
             
             makeSteps()
@@ -168,7 +171,13 @@ struct ContentView: View {
     }
     
     func start() {
+        locationManager.lastTime = Date()
+        locationManager.running = 2
         runStr = ["play.fill", "pause"]
+    }
+    
+    func pause() {
+        showsAlert = true
     }
 }
 

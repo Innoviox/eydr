@@ -14,8 +14,11 @@ class LocationManager: NSObject, ObservableObject {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     
     var running = 0 // stopped => 0, paused => 1, running => 2
-    var length = 0
-    var time = 0
+    var length: Double = 0
+    var time: Double = 0
+    
+    var lastLoc: CLLocation?
+    var lastTime = Date()
 
     override init() {
         super.init()
@@ -71,6 +74,17 @@ extension LocationManager: CLLocationManagerDelegate {
         if lastLocation != nil {
             region.center = lastLocation!.coordinate
         }
+        
+        if running == 2 {
+            let now = Date()
+            time += lastTime.distance(to: now)
+            print(time, now, lastTime, lastTime.distance(to: now))
+            lastTime = now
+            
+            if let loc = lastLoc {
+                length += location.distance(from: loc)
+            }
+            lastLoc = location
+        }
     }
-
 }
