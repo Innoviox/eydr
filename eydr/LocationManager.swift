@@ -9,9 +9,10 @@ import Foundation
 import CoreLocation
 import Combine
 import MapKit
+import SwiftUI
 
 class LocationManager: NSObject, ObservableObject {
-    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
     
     var running = 0 // stopped => 0, paused => 1, running => 2
     var length: Double = 0
@@ -19,6 +20,10 @@ class LocationManager: NSObject, ObservableObject {
     
     var lastLoc: CLLocation?
     var lastTime = Date()
+    
+    var route: [CLLocationCoordinate2D] = []
+    
+    @State var polyline: MKPolyline?
 
     override init() {
         super.init()
@@ -26,6 +31,8 @@ class LocationManager: NSObject, ObservableObject {
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
+        
+        route.append(CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275))
     }
 
     @Published var locationStatus: CLAuthorizationStatus? {
@@ -73,6 +80,9 @@ extension LocationManager: CLLocationManagerDelegate {
 //        print(#function, location)
         if lastLocation != nil {
             region.center = lastLocation!.coordinate
+            route.append(region.center)
+            polyline = MKPolyline(coordinates: route, count: route.count)
+            print(route.count)
         }
         
         if running == 2 {
@@ -86,5 +96,17 @@ extension LocationManager: CLLocationManagerDelegate {
             }
             lastLoc = location
         }
+    }
+}
+
+extension LocationManager: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .red
+        renderer.lineWidth = 1.0
+        
+        print("rendering")
+    
+        return renderer
     }
 }

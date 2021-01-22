@@ -77,8 +77,8 @@ struct ContentView: View {
     }
     
     func makeMap() -> some View {
-        return Map(coordinateRegion: $locationManager.region, showsUserLocation: true)
-            .border(Color.black)
+        return MapView(route: $locationManager.polyline, locationManager: locationManager)
+                        .border(Color.black)
     }
     
     func makeSteps() -> some View {

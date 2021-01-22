@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		203BFBC325BA686300357C38 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203BFBC225BA686300357C38 /* LocationManager.swift */; };
+		206A1AE825BB538100A82166 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A1AE725BB538100A82166 /* MapView.swift */; };
 		2093F69825BA25CC008EB2CD /* eydrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F69725BA25CC008EB2CD /* eydrApp.swift */; };
 		2093F69A25BA25CC008EB2CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093F69925BA25CC008EB2CD /* ContentView.swift */; };
 		2093F69C25BA25CD008EB2CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2093F69B25BA25CD008EB2CD /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		203BFBC225BA686300357C38 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		206A1AE725BB538100A82166 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2093F69425BA25CC008EB2CD /* eydr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eydr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2093F69725BA25CC008EB2CD /* eydrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eydrApp.swift; sourceTree = "<group>"; };
 		2093F69925BA25CC008EB2CD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				2093F69D25BA25CD008EB2CD /* Preview Content */,
 				2093F6D125BA5DFB008EB2CD /* HistoryView.swift */,
 				203BFBC225BA686300357C38 /* LocationManager.swift */,
+				206A1AE725BB538100A82166 /* MapView.swift */,
 			);
 			path = eydr;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				206A1AE825BB538100A82166 /* MapView.swift in Sources */,
 				2093F6A125BA25CD008EB2CD /* Persistence.swift in Sources */,
 				2093F6A425BA25CD008EB2CD /* eydr.xcdatamodeld in Sources */,
 				203BFBC325BA686300357C38 /* LocationManager.swift in Sources */,
