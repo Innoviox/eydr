@@ -1,12 +1,11 @@
 # eydr
 
 - popup view
-  - fix view so is centered
+  - ~~fix view so is centered~~
     - ~~populate table~~
   - ~~scrollable~~
-  - put popup in right place
+  - ~~put popup in right place~~
   - add popup content
-  - swipe gestures
   - ~~tap screen => goes away~~
 - bar view
   - fix up/down
@@ -14,6 +13,7 @@
   - colors (see goals)
   - line (see goals) / measuring stick?
   - month / year labels
+  - swipe gestures
 - goals
   - color in popupview based on - best/worst proportion? or past goal?
     - color borders of view

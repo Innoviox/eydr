@@ -36,6 +36,7 @@ struct BarView: View {
 
     }
 }
+
 struct HistoryView: View {
     @Environment(\.calendar) var calendar
     @Environment(\.managedObjectContext) private var viewContext
