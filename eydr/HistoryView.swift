@@ -79,7 +79,7 @@ struct HistoryView: View {
                 .frame(width: 200, height: 60)
                 .overlay(
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.purple, lineWidth: 5)
+                                .stroke(Color.red, lineWidth: 5)
                         )
                 
             })

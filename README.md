@@ -14,4 +14,5 @@
   - month / year labels
 - goals
   - color in popupview based on - best/worst proportion? or past goal?
+    - color borders of view
   - badges

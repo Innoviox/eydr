@@ -194,6 +194,28 @@ struct ContentView: View {
     }
 }
 
+extension ContentView {
+    func populate() {
+        var date = Date()
+        for i in 0..<100 {
+            date = date.addingTimeInterval(TimeInterval(-86400 * i))
+            
+            let n = Item(context: viewContext)
+            n.timestamp = date
+            n.morning = Int16.random(in: 1..<5)
+            n.afternoon = Int16.random(in: 1..<5)
+            n.steps = Int16.random(in: 1..<15000)
+        }
+        
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            print("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
