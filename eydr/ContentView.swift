@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import HealthKit
+import MapKit
 
 let FONT: Font = .system(size: 60)
 
@@ -17,6 +18,7 @@ struct ContentView: View {
     @State var counts = [0, 0]
     @State var is0 = [true, true]
     @State var steps = 0
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
 
     var body: some View {
         VStack {
@@ -25,6 +27,8 @@ struct ContentView: View {
                 makeBox(i: 1)
             }
             .frame(maxWidth: .infinity)
+            
+            Map(coordinateRegion: $region)
             
             makeSteps()
         }
