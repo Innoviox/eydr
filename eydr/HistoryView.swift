@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-func makeBarHeights(_ items: [Item], getter: (Item) -> Int) -> [Int] {
+func makeBarHeights(_ items: [Item], getter: (Item) -> CGFloat) -> [CGFloat] {
     let heights = items.map(getter)
     
     let min = heights.min()!, max = heights.max()!
@@ -17,10 +17,24 @@ func makeBarHeights(_ items: [Item], getter: (Item) -> Int) -> [Int] {
     return heights.map { ($0 - min) / (max - min) }
 }
 
-func Bar(_ height: Int) -> some View {
+struct BarView: View{
 
+    var value: CGFloat
+    var cornerRadius: CGFloat
+    
+    var body: some View {
+        VStack {
+            ZStack (alignment: .bottom) {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .frame(width: 30, height: 200).foregroundColor(.black)
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .frame(width: 30, height: value).foregroundColor(.green)
+                
+            }.padding(.bottom, 8)
+        }
+        
+    }
 }
-
 struct HistoryView: View {
     @Environment(\.calendar) var calendar
     @Environment(\.managedObjectContext) private var viewContext
@@ -36,19 +50,19 @@ struct HistoryView: View {
         do {
             let fetched = try viewContext.fetch(fetchRequest) as! [Item]
             
-            let topHeights = makeBarHeights(fetched) { Int($0.morning + $0.afternoon) }
-            let botHeights = makeBarHeights(fetched) { Int($0.steps) }
+            let topHeights = makeBarHeights(fetched) { CGFloat($0.morning + $0.afternoon) }
+            let botHeights = makeBarHeights(fetched) { CGFloat($0.steps) }
 
             return AnyView(HStack {
-                ForEach(1...fetched.count, id: \.self) { i in
+                ForEach(1...(fetched.count - 1), id: \.self) { i in
                     let item = fetched[i]
                     VStack {
-                        Bar(topHeights[i])
+                        BarView(value: topHeights[i], cornerRadius: 1)
                         Text("\(item.timestamp!.get(.day))")
                             .padding(8)
                             .background(Color.blue)
                             .cornerRadius(8)
-                        Bar(botHeights[i])
+                        BarView(value: botHeights[i], cornerRadius: 1)
                     }
                 }
             })
