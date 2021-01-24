@@ -23,18 +23,19 @@ struct BarView: View {
 
     var value: CGFloat
     var cornerRadius: CGFloat
+    var direction: Int // 0 up, 1 down
+    
+    var colors: [Color] = [.white, .green]
 
     var body: some View {
         VStack {
             ZStack (alignment: .bottom) {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .frame(width: 30, height: 200).foregroundColor(.white)
+                    .frame(width: 30, height: 200).foregroundColor(colors[direction])
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .frame(width: 30, height: value).foregroundColor(.green)
-
+                    .frame(width: 30, height: direction == 0 ? value : 200 - value).foregroundColor(colors[1 - direction])
             }.padding(.bottom, 8)
         }
-
     }
 }
 
@@ -121,7 +122,7 @@ struct HistoryView: View {
                     ForEach(0..<fetched.count, id: \.self) { i in
                         let item = fetched[i]
                         VStack {
-                            BarView(value: topHeights[i], cornerRadius: 1)
+                            BarView(value: topHeights[i], cornerRadius: 1, direction: 0)
                             Text("\(item.timestamp!.get(.day))")
                                 .padding(8)
                                 .background(Color.blue)
@@ -137,7 +138,7 @@ struct HistoryView: View {
                                         print("areo")
                                     }
                             }
-                            BarView(value: botHeights[i], cornerRadius: 1)
+                            BarView(value: botHeights[i], cornerRadius: 1, direction: 1)
                         }
                     }
                 }
