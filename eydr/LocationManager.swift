@@ -92,7 +92,7 @@ extension LocationManager: CLLocationManagerDelegate {
             lastLoc = location
 
             route.append(region.center)
-            polyline = MKPolyline(coordinates: route, count: route.count)
+            updatePoly()
         }
     }
 }
@@ -114,5 +114,66 @@ extension LocationManager {
             let p = length == 0 ? 0 : (time / (length / 1609.34)) / 60
             return String(format: "Distance: %02.2fmi\nTime    : %02d:%02d:%02d\nSpeed   : %02.2fmph\nPace    : %02d:%02dmin/mi", length / 1609.34, t / 3600, (t % 3600) / 60, t % 60, length / time, Int(p), Int((p - Double(Int(p))) * 60))
         }
+    }
+
+    func update(_ i: Item) {        
+        print("UPDATING", i.time, i.length)
+        self.running = Int(i.running)
+
+        if let route = i.route {
+            do {
+                let data = try NSKeyedUnarchiver.unarchivedObject(ofClass: Route.self, from: route as! Data)
+                self.route = data?.toRoute() ?? []
+            } catch {
+                print("UPDATING7 error loading route")
+            }
+        } else {
+            self.route = []
+        }
+
+        self.time = i.time
+        self.length = i.length
+
+        self.updatePoly()
+    }
+
+    func updatePoly() {
+        polyline = MKPolyline(coordinates: route, count: route.count)
+    }
+}
+
+class Route: NSObject {
+    enum Keys: String {
+      case coords = "coords"
+    }
+    
+    var coords: [[Double]] = []
+
+    required convenience init?(coder aDecoder: NSCoder) {
+        let coords = aDecoder.decodeObject(forKey: Keys.coords.rawValue) as! [[Double]]
+
+        self.init(coords)
+    }
+
+    init(_ route: [CLLocationCoordinate2D]) {
+        for i in route {
+            coords.append([i.latitude, i.longitude])
+        }
+    }
+    
+    init(_ coords: [[Double]]) {
+        self.coords = coords
+    }
+
+    func toRoute() -> [CLLocationCoordinate2D] {
+        return coords.map { i in
+            CLLocationCoordinate2D(latitude: i[0], longitude: i[1])
+        }
+    }
+}
+
+extension Route: NSCoding {
+    func encode(with coder: NSCoder) {
+        coder.encode(coords, forKey: Keys.coords.rawValue)
     }
 }

@@ -79,7 +79,10 @@ struct ContentView: View {
             .border(Color.black)
             .overlay(VStack {
                 Text(locationManager.infoString).font(MONO)
-                }.padding().border(Color.black), alignment: .topLeading)
+                }
+                .padding()
+                .border(Color.black),
+            alignment: .topLeading)
     }
 
     func makeSteps() -> some View {
@@ -115,6 +118,7 @@ struct ContentView: View {
                     self.counts = [Int(item.morning), Int(item.afternoon)]
                     self.is0[0] = self.counts[0] == 0
                     self.is0[1] = self.counts[1] == 0
+                    self.locationManager.update(item)
                 }
 
                 updateToday()
@@ -146,21 +150,24 @@ struct ContentView: View {
     func updateToday() {
         if let item = findToday() {
             updateItem(item)
+            print("UPDATING4", findToday()!.length)
         } else {
             makeToday()
         }
 
         do {
             try viewContext.save()
+            print("UPDATING3 success")
         } catch {
             let nsError = error as NSError
-            print("Unresolved error \(nsError), \(nsError.userInfo)")
+            print("UPDATING5 Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 
     func makeToday() {
         let newItem = Item(context: viewContext)
         newItem.timestamp = Date()
+        newItem.running = -1
         updateItem(newItem)
     }
 
@@ -171,8 +178,16 @@ struct ContentView: View {
 
         i.length = locationManager.length
         i.time = locationManager.time
-        i.route = locationManager.route
-        print(locationManager.route)
+        
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: Route(locationManager.route), requiringSecureCoding: false)
+            i.route = data as NSObject
+        } catch {
+            print("UPDATING6 failed to save route")
+        }
+        
+        print("UPDATING2", locationManager.length, locationManager.time)
+        print()
     }
 
     func start() {
@@ -197,7 +212,7 @@ extension ContentView {
     func populate() {
         var date = Date()
         for i in 0..<100 {
-            date = date.addingTimeInterval(TimeInterval(-86400 * i))
+            date = date.addingTimeInterval(TimeInterval(-86400))
 
             let n = Item(context: viewContext)
             n.timestamp = date
