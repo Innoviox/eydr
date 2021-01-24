@@ -112,7 +112,7 @@ extension LocationManager {
         get {
             let t = Int(time)
             let p = length == 0 ? 0 : (time / (length / 1609.34)) / 60
-            return String(format: "Distance: %02.2fmi\nTime    : %02d:%02d:%02d\nSpeed   : %02.2fmph\nPace    : %02d:%02dmin/mi", length / 1609.34, t / 3600, (t % 3600) / 60, t % 60, length / time, Int(p), Int((p - Double(Int(p))) * 60))
+            return String(format: "Distance: %02.2fmi\nTime    : %02d:%02d:%02d\nSpeed   : %02.2fmph\nPace    : %02d:%02dmin/mi", length / 1609.34, t / 3600, (t % 3600) / 60, t % 60, (length / 1609.34) / (time / 3600), Int(p), Int((p - Double(Int(p))) * 60))
         }
     }
 
