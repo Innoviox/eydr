@@ -48,6 +48,9 @@ struct HistoryView: View {
     @State var selected: Item?
     @State var route: [CLLocationCoordinate2D] = [] {
         didSet {
+            locationManager.time = selected!.time
+            locationManager.length = selected!.length
+
             locationManager.route = route
             locationManager.polyline = MKPolyline(coordinates: route, count: route.count)
         }
@@ -74,7 +77,12 @@ struct HistoryView: View {
 
                 MapView(route: $locationManager.polyline, locationManager: locationManager)
                     .border(Color.black)
-//                    .frame(minHeight: 200)
+                    .overlay(VStack {
+                        Text(locationManager.infoString).font(MONO)
+                        }
+                        .padding()
+                        .border(Color.black),
+                    alignment: .topLeading)
 
                 HStack {
                     Label {
