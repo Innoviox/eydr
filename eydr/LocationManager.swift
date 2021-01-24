@@ -125,7 +125,7 @@ extension LocationManager {
             do {
 //                let data = try NSKeyedUnarchiver.unarchivedObject(ofClass: Route.self, from: route as! Data)
                 let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(route as! Data) as! Route
-                self.route = data.toRoute() ?? []
+                self.route = data.toRoute()
 //                self.route = (route as! Route).toRoute()
             } catch {
                 print("UPDATING7 error loading route \(error)")

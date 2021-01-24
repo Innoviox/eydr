@@ -50,9 +50,9 @@ struct HistoryView: View {
                 Text("The popup")
             }
                 .frame(width: 200, height: 60)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.red, lineWidth: 5))
+                .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
+                .background(Color(hex: "ffffff"))
+                .border(Color.red, width: 5)
         }
     }
 
@@ -69,7 +69,7 @@ struct HistoryView: View {
 
             return AnyView(
                 HStack {
-                    ForEach(0...20, id: \.self) { i in
+                    ForEach(0..<fetched.count, id: \.self) { i in
                         let item = fetched[i]
                         VStack {
                             BarView(value: topHeights[i], cornerRadius: 1)
@@ -102,5 +102,19 @@ struct HistoryView_Previews: PreviewProvider {
 struct DetailView: View {
     var body: some View {
         Text("Detail")
+    }
+}
+
+extension Color {
+    init(hex: String) {
+        let scanner = Scanner(string: hex)
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&rgbValue)
+
+        let r = (rgbValue & 0xff0000) >> 16
+        let g = (rgbValue & 0xff00) >> 8
+        let b = rgbValue & 0xff
+
+        self.init(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff)
     }
 }
