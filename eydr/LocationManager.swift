@@ -124,8 +124,9 @@ extension LocationManager {
         if let route = i.route {
             do {
 //                let data = try NSKeyedUnarchiver.unarchivedObject(ofClass: Route.self, from: route as! Data)
-//                self.route = data?.toRoute() ?? []
-                self.route = (route as! Route).toRoute()
+                let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(route as! Data) as! Route
+                self.route = data.toRoute() ?? []
+//                self.route = (route as! Route).toRoute()
             } catch {
                 print("UPDATING7 error loading route \(error)")
             }
@@ -179,7 +180,7 @@ class Route: NSObject {
 
 extension Route: NSCoding {
     func encode(with coder: NSCoder) {
-        coder.encode(coords)
+        coder.encode(coords, forKey: Keys.coords.rawValue)
     }
 }
 
