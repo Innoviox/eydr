@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import ExytePopupView
+import MapKit
 
 func makeBarHeights(_ items: [Item], getter: (Item) -> CGFloat) -> [CGFloat] {
     let heights = items.map(getter)
@@ -40,19 +41,57 @@ struct BarView: View {
 struct HistoryView: View {
     @Environment(\.calendar) var calendar
     @Environment(\.managedObjectContext) private var viewContext
+
+    @ObservedObject var locationManager = LocationManager()
+
     @State var showingPopup = false
+    @State var selected: Item?
+    @State var route: [CLLocationCoordinate2D] = []
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             loadData()
         }.popup(isPresented: $showingPopup, closeOnTapOutside: true) {
-            HStack {
-                Text("The popup")
+            VStack {
+                HStack {
+                    HStack {
+                        Text("\(selected?.morning ?? 0)").font(FONT)
+                    }
+                        .padding()
+                        .border(Color.black)
+
+                    HStack {
+                        Text("\(selected?.afternoon ?? 0)").font(FONT)
+                    }
+                        .padding()
+                        .border(Color.black)
+                }
+
+                MapView(route: $locationManager.polyline, locationManager: locationManager)
+                    .border(Color.black)
+                    .onAppear {
+                        locationManager.polyline = MKPolyline(coordinates: route, count: route.count)
+                    }
+//                    .frame(minHeight: 200)
+
+                HStack {
+                    Label {
+                        Text("\(selected?.steps ?? 0)")
+                            .font(.title)
+                    } icon: {
+                        Image("shoes")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                    }
+                }
+                    .padding()
+                    .border(Color.black)
             }
-                .frame(width: 200, height: 60)
+//                .frame(width: 200, height: 60)
                 .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
                 .background(Color(hex: "ffffff"))
                 .border(Color.red, width: 5)
+//                .isHidden(showingPopup)
         }
     }
 
@@ -78,7 +117,15 @@ struct HistoryView: View {
                                 .background(Color.blue)
                                 .cornerRadius(8)
                                 .onTapGesture {
+                                    self.selected = item
                                     self.showingPopup.toggle()
+
+                                    do {
+                                        let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(selected!.route as! Data) as! Route
+                                        self.route = data.toRoute()
+                                    } catch {
+                                        print("areo")
+                                    }
                             }
                             BarView(value: botHeights[i], cornerRadius: 1)
                         }
@@ -116,5 +163,35 @@ extension Color {
         let b = rgbValue & 0xff
 
         self.init(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff)
+    }
+}
+
+extension View {
+
+    /// Hide or show the view based on a boolean value.
+    ///
+    /// Example for visibility:
+    /// ```
+    /// Text("Label")
+    ///     .isHidden(true)
+    /// ```
+    ///
+    /// Example for complete removal:
+    /// ```
+    /// Text("Label")
+    ///     .isHidden(true, remove: true)
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - hidden: Set to `false` to show the view. Set to `true` to hide the view.
+    ///   - remove: Boolean value indicating whether or not to remove the view.
+    @ViewBuilder func isHidden(_ hidden: Bool, remove: Bool = false) -> some View {
+        if hidden {
+            if !remove {
+                self.hidden()
+            }
+        } else {
+            self
+        }
     }
 }

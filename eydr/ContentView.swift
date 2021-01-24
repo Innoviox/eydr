@@ -178,14 +178,14 @@ struct ContentView: View {
 
         i.length = locationManager.length
         i.time = locationManager.time
-        
+
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: Route(locationManager.route), requiringSecureCoding: false)
             i.route = data as NSObject
         } catch {
             print("UPDATING6 failed to save route")
         }
-        
+
         print("UPDATING2", locationManager.length, locationManager.time)
         print()
     }
