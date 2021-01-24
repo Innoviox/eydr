@@ -116,16 +116,18 @@ extension LocationManager {
         }
     }
 
-    func update(_ i: Item) {        
+    func update(_ i: Item) {
+//        return
         print("UPDATING", i.time, i.length)
         self.running = Int(i.running)
 
         if let route = i.route {
             do {
-                let data = try NSKeyedUnarchiver.unarchivedObject(ofClass: Route.self, from: route as! Data)
-                self.route = data?.toRoute() ?? []
+//                let data = try NSKeyedUnarchiver.unarchivedObject(ofClass: Route.self, from: route as! Data)
+//                self.route = data?.toRoute() ?? []
+                self.route = (route as! Route).toRoute()
             } catch {
-                print("UPDATING7 error loading route")
+                print("UPDATING7 error loading route \(error)")
             }
         } else {
             self.route = []
@@ -151,14 +153,17 @@ class Route: NSObject {
 
     required convenience init?(coder aDecoder: NSCoder) {
         let coords = aDecoder.decodeObject(forKey: Keys.coords.rawValue) as! [[Double]]
+        aDecoder.decodeData()
 
         self.init(coords)
     }
 
     init(_ route: [CLLocationCoordinate2D]) {
+        coords = []
         for i in route {
             coords.append([i.latitude, i.longitude])
         }
+        print("UPDATING made route", coords)
     }
     
     init(_ coords: [[Double]]) {
@@ -174,6 +179,12 @@ class Route: NSObject {
 
 extension Route: NSCoding {
     func encode(with coder: NSCoder) {
-        coder.encode(coords, forKey: Keys.coords.rawValue)
+        coder.encode(coords)
+    }
+}
+
+extension Route: NSSecureCoding {
+    static var supportsSecureCoding: Bool {
+        true
     }
 }

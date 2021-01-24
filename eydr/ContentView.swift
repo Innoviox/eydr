@@ -99,7 +99,7 @@ struct ContentView: View {
             .padding()
             .frame(maxWidth: .infinity)
             .border(Color.black)
-            .onAppear(perform: retrieveStepCount)
+//            .onAppear(perform: retrieveStepCount)
     }
 
     func retrieveStepCount() {
@@ -180,8 +180,8 @@ struct ContentView: View {
         i.time = locationManager.time
         
         do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: Route(locationManager.route), requiringSecureCoding: false)
-            i.route = data as NSObject
+   
+            i.route = Route(locationManager.route)
         } catch {
             print("UPDATING6 failed to save route")
         }

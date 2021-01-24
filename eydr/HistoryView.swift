@@ -12,7 +12,7 @@ import ExytePopupView
 func makeBarHeights(_ items: [Item], getter: (Item) -> CGFloat) -> [CGFloat] {
     let heights = items.map(getter)
 
-    let /* min = heights.min()!, */ max = heights.max()!
+    let /* min = heights.min() ?? 0, */ max = heights.max() ?? 0
 
 
     return heights.map { $0 / (max == 0 ? 1 : max) * 200 }
