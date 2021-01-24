@@ -46,7 +46,12 @@ struct HistoryView: View {
 
     @State var showingPopup = false
     @State var selected: Item?
-    @State var route: [CLLocationCoordinate2D] = []
+    @State var route: [CLLocationCoordinate2D] = [] {
+        didSet {
+            locationManager.route = route
+            locationManager.polyline = MKPolyline(coordinates: route, count: route.count)
+        }
+    }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -69,9 +74,6 @@ struct HistoryView: View {
 
                 MapView(route: $locationManager.polyline, locationManager: locationManager)
                     .border(Color.black)
-                    .onAppear {
-                        locationManager.polyline = MKPolyline(coordinates: route, count: route.count)
-                    }
 //                    .frame(minHeight: 200)
 
                 HStack {
