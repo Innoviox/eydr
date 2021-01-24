@@ -5,10 +5,10 @@
     - ~~populate table~~
   - ~~scrollable~~
   - ~~put popup in right place~~
-  - add popup content
+  - ~~add popup content~~
   - ~~tap screen => goes away~~
 - bar view
-  - fix up/down
+  - ~~fix up/down~~
   - clickable?
   - colors (see goals)
   - line (see goals) / measuring stick?
