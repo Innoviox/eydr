@@ -115,7 +115,7 @@ struct HistoryView: View {
             let topHeights = makeBarHeights(fetched) { CGFloat($0.morning + $0.afternoon) }
             let botHeights = makeBarHeights(fetched) { CGFloat($0.steps) }
 
-            print(topHeights, botHeights)
+//            print(topHeights, botHeights)
 
             return AnyView(
                 HStack {

@@ -56,7 +56,7 @@ struct ContentView: View {
                 if counts[i] > 0 {
                     counts[i] -= 1
                     is0[i] = counts[i] == 0
-                    updateToday()
+                    viewContext.updateToday(counts: counts, steps: steps, manager: locationManager)
                 }
             }, label: {
                 Text("-").font(FONT)
@@ -65,7 +65,7 @@ struct ContentView: View {
             Button(action: {
                 counts[i] += 1
                 is0[i] = counts[i] == 0
-                updateToday()
+                viewContext.updateToday(counts: counts, steps: steps, manager: locationManager)
             }, label: {
                 Text("+").font(FONT)
             })
@@ -114,80 +114,19 @@ struct ContentView: View {
             results!.enumerateStatistics(from: newDate, to: date) { s, _ in
                 self.steps = Int(s.sumQuantity()!.doubleValue(for: HKUnit.count()))
 
-                if let item = findToday() {
+                if let item = viewContext.findToday() {
                     self.counts = [Int(item.morning), Int(item.afternoon)]
                     self.is0[0] = self.counts[0] == 0
                     self.is0[1] = self.counts[1] == 0
                     self.locationManager.update(item)
+                    self.locationManager.setContext(viewContext)
                 }
 
-                updateToday()
+                viewContext.updateToday(counts: counts, steps: steps, manager: locationManager)
             }
         }
 
         healthStore.execute(query)
-    }
-
-    func findToday() -> Item? {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
-        do {
-            let fetched = try viewContext.fetch(fetchRequest) as! [Item]
-
-            let cdc = Date().get(.day, .month, .year)
-            for item in fetched {
-                let idc = item.timestamp!.get(.day, .month, .year)
-                if cdc.day == idc.day && cdc.month == idc.month && cdc.year == idc.year {
-                    return item
-                }
-            }
-        } catch {
-            print("Failed to fetch items: \(error)")
-        }
-
-        return nil
-    }
-
-    func updateToday() {
-        if let item = findToday() {
-            updateItem(item)
-            print("UPDATING4", findToday()!.length)
-        } else {
-            makeToday()
-        }
-
-        do {
-            try viewContext.save()
-            print("UPDATING3 success")
-        } catch {
-            let nsError = error as NSError
-            print("UPDATING5 Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
-
-    func makeToday() {
-        let newItem = Item(context: viewContext)
-        newItem.timestamp = Date()
-        newItem.running = -1
-        updateItem(newItem)
-    }
-
-    func updateItem(_ i: Item) {
-        i.morning = Int16(counts[0])
-        i.afternoon = Int16(counts[1])
-        i.steps = Int16(steps)
-
-        i.length = locationManager.length
-        i.time = locationManager.time
-
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: Route(locationManager.route), requiringSecureCoding: false)
-            i.route = data as NSObject
-        } catch {
-            print("UPDATING6 failed to save route")
-        }
-
-        print("UPDATING2", locationManager.length, locationManager.time)
-        print()
     }
 
     func start() {
@@ -203,7 +142,7 @@ struct ContentView: View {
         } else {
             locationManager.running = 0
             runStr = ["play.fill", "pause"]
-            updateToday()
+            viewContext.updateToday(counts: counts, steps: steps, manager: locationManager)
         }
     }
 }
@@ -243,5 +182,76 @@ extension Date {
 
     func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
         return calendar.component(component, from: self)
+    }
+}
+
+extension NSManagedObjectContext {
+    func findToday() -> Item? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
+        do {
+            let fetched = try fetch(fetchRequest) as! [Item]
+
+            let cdc = Date().get(.day, .month, .year)
+            for item in fetched {
+                let idc = item.timestamp!.get(.day, .month, .year)
+                if cdc.day == idc.day && cdc.month == idc.month && cdc.year == idc.year {
+                    return item
+                }
+            }
+        } catch {
+            print("Failed to fetch items: \(error)")
+        }
+
+        return nil
+    }
+
+    func updateToday(counts: [Int], steps: Int, manager: LocationManager?) {
+        if let item = findToday() {
+            updateItem(item, counts, steps, manager)
+            print("UPDATING4", findToday()!.length)
+        } else {
+            makeToday(counts: counts, steps: steps, manager: manager)
+        }
+
+        do {
+            try save()
+            print("UPDATING3 success")
+        } catch {
+            let nsError = error as NSError
+            print("UPDATING5 Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+
+    func makeToday(counts: [Int], steps: Int, manager: LocationManager?) {
+        let newItem = Item(context: self)
+        newItem.timestamp = Date()
+        newItem.running = -1
+        updateItem(newItem, counts, steps, manager)
+    }
+
+    func updateItem(_ i: Item, _ counts: [Int], _ steps: Int, _ manager: LocationManager?) {
+        if counts.count > 0 {
+            i.morning = Int16(counts[0])
+            i.afternoon = Int16(counts[1])
+        }
+        
+        if steps != -1 {
+            i.steps = Int16(steps)
+        }
+
+        if let locationManager = manager {
+            i.length = locationManager.length
+            i.time = locationManager.time
+
+            do {
+                let data = try NSKeyedArchiver.archivedData(withRootObject: Route(locationManager.route), requiringSecureCoding: false)
+                i.route = data as NSObject
+            } catch {
+                print("UPDATING6 failed to save route")
+            }
+
+            print("UPDATING2", locationManager.length, locationManager.time)
+            print()
+        }
     }
 }

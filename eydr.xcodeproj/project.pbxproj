@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -188,7 +188,6 @@
 				89B7B55536930AD8F3563A06 /* Pods-eydrTests.debug.xcconfig */,
 				51EC229B9C2752183B4BDCE2 /* Pods-eydrTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

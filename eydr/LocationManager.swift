@@ -10,6 +10,7 @@ import CoreLocation
 import Combine
 import MapKit
 import SwiftUI
+import CoreData
 
 class LocationManager: NSObject, ObservableObject {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
@@ -24,6 +25,8 @@ class LocationManager: NSObject, ObservableObject {
     var route: [CLLocationCoordinate2D] = []
 
     var polyline: MKPolyline?
+    
+    var context: NSManagedObjectContext?
 
     override init() {
         super.init()
@@ -64,6 +67,10 @@ class LocationManager: NSObject, ObservableObject {
     let objectWillChange = PassthroughSubject<Void, Never>()
 
     private let locationManager = CLLocationManager()
+    
+    func setContext(_ c: NSManagedObjectContext) {
+        context = c
+    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -93,6 +100,10 @@ extension LocationManager: CLLocationManagerDelegate {
 
             route.append(region.center)
             updatePoly()
+            
+            if let c = context {
+                c.updateToday(counts: [], steps: -1, manager: self)
+            }
         }
     }
 }
