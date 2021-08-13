@@ -1,6 +1,9 @@
 import SwiftUI
 import CoreData
 
+let FONT: Font = .system(size: 60)
+
+
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -10,7 +13,12 @@ struct ContentView: View {
     private let weekDayFormatter: DateFormatter
     private let fullFormatter: DateFormatter
 
-    @State private var selectedDate = Self.now
+    @State private var selectedDate = Self.now {
+        didSet{
+            currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
+        }
+    }
+    @State var currentCount = 0
     private static var now = Date() // Cache now
 
     init(calendar: Calendar) {
@@ -21,7 +29,23 @@ struct ContentView: View {
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
     }
 
-    var body: some View {        
+    var body: some View {
+        HStack {
+            Button(action: {
+                currentCount = viewContext.decrement(selectedDate)
+            }, label: {
+                Text("-").font(FONT)
+            })
+            Text("\(currentCount)").font(FONT)
+            Button(action: {
+                currentCount = viewContext.increment(selectedDate)
+            }, label: {
+                Text("+").font(FONT)
+            })
+        }
+            .padding()
+            .border(Color.black)
+        
         VStack {
             CalendarView(
                 calendar: calendar,
@@ -30,7 +54,9 @@ struct ContentView: View {
                     Button(action: { selectedDate = date }) {
                         Text("00")
                             .padding(8)
-                            .foregroundColor(.clear)
+                            .foregroundColor(
+                                .clear
+                            )
                             .background(
                                 viewContext.getGradientExerciseColor(for: date)
                             )
@@ -38,7 +64,7 @@ struct ContentView: View {
                             .accessibilityHidden(true)
                             .overlay(
                                 Text(dayFormatter.string(from: date))
-                                    .foregroundColor(.white)
+                                    .foregroundColor(viewContext.getTextColor(for: date))
                             )
                     }
                 },
@@ -247,7 +273,7 @@ extension NSManagedObjectContext {
 
             let cdc = date.get(.day, .month, .year)
             for item in fetched {
-                let idc = item.timestamp!.get(.day, .month, .year)
+                let idc = (item.timestamp ?? Date()).get(.day, .month, .year)
                 
                 if cdc.day == idc.day && cdc.month == idc.month && cdc.year == idc.year {
                     return item
@@ -264,11 +290,55 @@ extension NSManagedObjectContext {
         let goal = 10.0
                 
         guard let data = item(for: date) else {
-            return Color.white
+            return .white
         }
         
         let value = max(0, 1.0 - Double(data.exercise) / goal)
         
         return Color(red: value, green: value, blue: 1.0)
+    }
+    
+    func getTextColor(for date: Date) -> Color {
+        guard let data = item(for: date) else {
+            return .black
+        }
+        
+        return data.exercise == 0 ? .black : .white
+    }
+    
+    func increment(_ date: Date) -> Int {
+        var data = item(for: date)
+        if data == nil {
+            data = Item(context: self)
+            data!.timestamp = date
+        }
+        
+        data!.exercise += 1
+        
+        do {
+            try save()
+        } catch {
+            
+        }
+        
+        return Int(data!.exercise)
+    }
+    
+    func decrement(_ date: Date) -> Int {
+        var data = item(for: date)
+        if data == nil {
+            data = Item(context: self)
+            data!.timestamp = date
+        }
+        
+        data!.exercise -= 1
+        
+        do {
+            try save()
+        } catch {
+            
+        }
+        
+        return Int(data!.exercise)
     }
 }
