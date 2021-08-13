@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CoreData
-import ExytePopupView
+//import ExytePopupView
 import MapKit
 
 func makeBarHeights(_ items: [Item], getter: (Item) -> CGFloat) -> [CGFloat] {
@@ -60,7 +60,7 @@ struct HistoryView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             loadData()
-        }.popup(isPresented: $showingPopup, closeOnTapOutside: true) {
+        } /*.popup(isPresented: $showingPopup, closeOnTapOutside: true) {
             VStack {
                 HStack {
                     HStack {
@@ -103,7 +103,7 @@ struct HistoryView: View {
                 .background(Color(hex: "ffffff"))
                 .border(Color.red, width: 5)
 //                .isHidden(showingPopup)
-        }
+        } */
     }
 
     func loadData() -> AnyView {
