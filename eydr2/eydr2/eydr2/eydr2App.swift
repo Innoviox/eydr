@@ -13,7 +13,7 @@ struct eydr2App: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(calendar: Calendar(identifier: .gregorian))
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
