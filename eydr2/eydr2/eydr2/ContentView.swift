@@ -21,9 +21,7 @@ struct ContentView: View {
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
     }
 
-    var body: some View {
-        let a = loaddata()
-        
+    var body: some View {        
         VStack {
             CalendarView(
                 calendar: calendar,
@@ -34,9 +32,7 @@ struct ContentView: View {
                             .padding(8)
                             .foregroundColor(.clear)
                             .background(
-                                calendar.isDate(date, inSameDayAs: selectedDate) ? Color.red
-                                    : calendar.isDateInToday(date) ? .green
-                                    : .blue
+                                viewContext.getGradientExerciseColor(for: date)
                             )
                             .cornerRadius(8)
                             .accessibilityHidden(true)
@@ -108,10 +104,6 @@ struct ContentView: View {
             .equatable()
         }
         .padding()
-    }
-    
-    func loaddata() {
-        viewContext.loadAllData()
     }
 }
 
@@ -248,20 +240,35 @@ extension Date {
 }
 
 extension NSManagedObjectContext {
-    func loadAllData() -> Item? {
+    func item(for date: Date) -> Item? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
         do {
             let fetched = try fetch(fetchRequest) as! [Item]
 
-            let cdc = Date().get(.day, .month, .year)
+            let cdc = date.get(.day, .month, .year)
             for item in fetched {
                 let idc = item.timestamp!.get(.day, .month, .year)
-                print(idc, item.exercise)
+                
+                if cdc.day == idc.day && cdc.month == idc.month && cdc.year == idc.year {
+                    return item
+                }
             }
         } catch {
             print("Failed to fetch items: \(error)")
         }
 
         return nil
+    }
+    
+    func getGradientExerciseColor(for date: Date) -> Color {
+        let goal = 10.0
+                
+        guard let data = item(for: date) else {
+            return Color.white
+        }
+        
+        let value = max(0, 1.0 - Double(data.exercise) / goal)
+        
+        return Color(red: value, green: value, blue: 1.0)
     }
 }
