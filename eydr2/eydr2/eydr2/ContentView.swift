@@ -25,9 +25,6 @@ struct ContentView: View {
         let a = loaddata()
         
         VStack {
-            Text("Selected date: \(fullFormatter.string(from: selectedDate))")
-                .bold()
-                .foregroundColor(.red)
             CalendarView(
                 calendar: calendar,
                 date: $selectedDate,
