@@ -3,6 +3,7 @@ import CoreData
 
 let FONT: Font = .system(size: 60)
 
+typealias Colors = [Date: (Color, Color)]
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -16,9 +17,11 @@ struct ContentView: View {
     @State private var selectedDate = Self.now {
         didSet{
             currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
+            setColors(for: selectedDate)
         }
     }
     @State var currentCount = 0
+    @State var colors = Colors()
     private static var now = Date() // Cache now
 
     init(calendar: Calendar) {
@@ -51,22 +54,7 @@ struct ContentView: View {
                 calendar: calendar,
                 date: $selectedDate,
                 content: { date in
-                    Button(action: { selectedDate = date }) {
-                        Text("00")
-                            .padding(8)
-                            .foregroundColor(
-                                .clear
-                            )
-                            .background(
-                                viewContext.getGradientExerciseColor(for: date)
-                            )
-                            .cornerRadius(8)
-                            .accessibilityHidden(true)
-                            .overlay(
-                                Text(dayFormatter.string(from: date))
-                                    .foregroundColor(viewContext.getTextColor(for: date))
-                            )
-                    }
+                    makeButton(for: date)
                 },
                 trailing: { date in
                     Text(dayFormatter.string(from: date))
@@ -130,6 +118,29 @@ struct ContentView: View {
             .equatable()
         }
         .padding()
+        .onAppear {
+            print("running appear")
+            colors = viewContext.colorMatrix()
+        }
+    }
+    
+    func makeButton(for date: Date) -> some View {        
+        return Button(action: { selectedDate = date }) {
+            Text("00")
+                .padding(8)
+                .foregroundColor(.clear)
+                .background(viewContext.getGradientExerciseColor(for: date))
+                .cornerRadius(8)
+                .accessibilityHidden(true)
+                .overlay(
+                    Text(dayFormatter.string(from: date))
+                        .foregroundColor(viewContext.getTextColor(for: date))
+                )
+        }
+    }
+    
+    func setColors(for date: Date) {
+        colors[date] = (viewContext.getGradientExerciseColor(for: date), viewContext.getTextColor(for: date))
     }
 }
 
@@ -267,18 +278,29 @@ extension Date {
 
 extension NSManagedObjectContext {
     func item(for date: Date) -> Item? {
+        guard let fetched = allItems() else {
+            return nil
+        }
+
+        let cdc = date.get(.day, .month, .year)
+        for item in fetched {
+            let idc = (item.timestamp ?? Date()).get(.day, .month, .year)
+            
+            if cdc.day == idc.day && cdc.month == idc.month && cdc.year == idc.year {
+                return item
+            }
+        }
+        
+        return nil
+    }
+    
+    func allItems() -> [Item]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
+        
         do {
             let fetched = try fetch(fetchRequest) as! [Item]
-
-            let cdc = date.get(.day, .month, .year)
-            for item in fetched {
-                let idc = (item.timestamp ?? Date()).get(.day, .month, .year)
-                
-                if cdc.day == idc.day && cdc.month == idc.month && cdc.year == idc.year {
-                    return item
-                }
-            }
+            return fetched
+            
         } catch {
             print("Failed to fetch items: \(error)")
         }
@@ -340,5 +362,17 @@ extension NSManagedObjectContext {
         }
         
         return Int(data!.exercise)
+    }
+    
+    func colorMatrix() -> Colors {
+        var colors = Colors()
+        
+        for item in allItems()! {
+            if let date = item.timestamp {
+                colors[date] = (getGradientExerciseColor(for: date), getTextColor(for: date))
+            }
+        }
+
+        return colors
     }
 }
