@@ -24,12 +24,14 @@ struct ContentView: View {
     @State var colors = Colors()
     private static var now = Date() // Cache now
 
-    init(calendar: Calendar) {
+    init(calendar: Calendar, colors: Colors) {
         self.calendar = calendar
         self.monthFormatter = DateFormatter(dateFormat: "MMMM", calendar: calendar)
         self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
         self.weekDayFormatter = DateFormatter(dateFormat: "EEEEE", calendar: calendar)
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
+        
+        self.colors = colors
     }
 
     var body: some View {
@@ -54,7 +56,7 @@ struct ContentView: View {
                 calendar: calendar,
                 date: $selectedDate,
                 content: { date in
-                    makeButton(for: date)
+                    DateButton(for: date)
                 },
                 trailing: { date in
                     Text(dayFormatter.string(from: date))
@@ -120,29 +122,37 @@ struct ContentView: View {
         .padding()
         .onAppear {
             print("running appear")
-            colors = viewContext.colorMatrix()
         }
     }
     
     func makeButton(for date: Date) -> some View {
         let today = Calendar.current.isDateInToday(date)
         
-        return Button(action: { selectedDate = date }) {
-            Text("00")
-                .padding(8)
-                .foregroundColor(.clear)
-                .background(viewContext.getGradientExerciseColor(for: date))
-                .cornerRadius(8)
-                .accessibilityHidden(true)
-                .overlay(
-                    Text(dayFormatter.string(from: date))
-                        .foregroundColor(viewContext.getTextColor(for: date))
-                )
-                .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.red, lineWidth: today ? 2 : 0)
-                    )
+        /*
+        if colors[date] == nil {
+            colors[date] = (.white, .black)
         }
+         */
+        if colors[date] == nil {
+            return Button(action: { selectedDate = date }) {
+                Text("00")
+                    .padding(8)
+                    .foregroundColor(.clear)
+                    .background(Color.white)
+                    .cornerRadius(8)
+                    .accessibilityHidden(true)
+                    .overlay(
+                        Text(dayFormatter.string(from: date))
+                            .foregroundColor(Color.black)
+                    )
+                    .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.red, lineWidth: today ? 2 : 0)
+                        )
+            }
+        }
+        
+
     }
     
     func setColors(for date: Date) {
@@ -195,6 +205,36 @@ public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>
                     }
                 }
             }
+        }
+    }
+}
+
+public struct DateButton: View {
+    private let date: Date
+    private let today: Bool
+    private let action: () -> Void
+    
+    public init(for date: Date) {
+        self.date = date
+        self.today = Calendar.current.isDateInToday(date)
+    }
+    
+    public var body: some View {
+        return Button(action: { selectedDate = date }) {
+            Text("00")
+                .padding(8)
+                .foregroundColor(.clear)
+                .background(colors[date]!.0)
+                .cornerRadius(8)
+                .accessibilityHidden(true)
+                .overlay(
+                    Text(dayFormatter.string(from: date))
+                        .foregroundColor(colors[date]!.1)
+                )
+                .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.red, lineWidth: today ? 2 : 0)
+                    )
         }
     }
 }
