@@ -124,7 +124,9 @@ struct ContentView: View {
         }
     }
     
-    func makeButton(for date: Date) -> some View {        
+    func makeButton(for date: Date) -> some View {
+        let today = Calendar.current.isDateInToday(date)
+        
         return Button(action: { selectedDate = date }) {
             Text("00")
                 .padding(8)
@@ -136,6 +138,10 @@ struct ContentView: View {
                     Text(dayFormatter.string(from: date))
                         .foregroundColor(viewContext.getTextColor(for: date))
                 )
+                .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.red, lineWidth: today ? 2 : 0)
+                    )
         }
     }
     
