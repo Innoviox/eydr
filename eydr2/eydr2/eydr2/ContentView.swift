@@ -20,8 +20,16 @@ struct ContentView: View {
             setColors(for: selectedDate)
         }
     }
-    @State var currentCount = 0
+    @State var currentCount = 0 {
+        didSet {
+            if let b = selectedButton {
+                b.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
+                b.foregroundColor = viewContext.getTextColor(for: selectedDate)
+            }
+        }
+    }
     @State var colors = Colors()
+    @State private var selectedButton: DateButton?
     private static var now = Date() // Cache now
 
     init(calendar: Calendar, colors: Colors) {
@@ -38,6 +46,7 @@ struct ContentView: View {
         HStack {
             Button(action: {
                 currentCount = viewContext.decrement(selectedDate)
+                
             }, label: {
                 Text("-").font(FONT)
             })
@@ -56,7 +65,7 @@ struct ContentView: View {
                 calendar: calendar,
                 date: $selectedDate,
                 content: { date in
-                    DateButton(for: date)
+                    makeButton(for: date)
                 },
                 trailing: { date in
                     Text(dayFormatter.string(from: date))
@@ -126,33 +135,13 @@ struct ContentView: View {
     }
     
     func makeButton(for date: Date) -> some View {
-        let today = Calendar.current.isDateInToday(date)
-        
-        /*
-        if colors[date] == nil {
-            colors[date] = (.white, .black)
-        }
-         */
-        if colors[date] == nil {
-            return Button(action: { selectedDate = date }) {
-                Text("00")
-                    .padding(8)
-                    .foregroundColor(.clear)
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    .accessibilityHidden(true)
-                    .overlay(
-                        Text(dayFormatter.string(from: date))
-                            .foregroundColor(Color.black)
-                    )
-                    .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.red, lineWidth: today ? 2 : 0)
-                        )
-            }
+        var button = DateButton(for: date, action: {}, getColors: {}, calendar: self.calendar);
+        button.action = {
+            selectedDate = date
+            selectedButton = button
         }
         
-
+        return button
     }
     
     func setColors(for date: Date) {
@@ -212,30 +201,38 @@ public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>
 public struct DateButton: View {
     private let date: Date
     private let today: Bool
-    private let action: () -> Void
+    public  var action: () -> Void
+    public  var getColors: () -> Void
+    private let dayFormatter: DateFormatter
     
-    public init(for date: Date) {
+    @State var backgroundColor = Color.white
+    @State var foregroundColor = Color.black
+    
+    public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
         self.date = date
         self.today = Calendar.current.isDateInToday(date)
+        self.action = action
+        self.getColors = getColors
+        self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
     }
     
     public var body: some View {
-        return Button(action: { selectedDate = date }) {
+        return Button(action: self.action) {
             Text("00")
                 .padding(8)
                 .foregroundColor(.clear)
-                .background(colors[date]!.0)
+                .background(backgroundColor)
                 .cornerRadius(8)
                 .accessibilityHidden(true)
                 .overlay(
                     Text(dayFormatter.string(from: date))
-                        .foregroundColor(colors[date]!.1)
+                        .foregroundColor(foregroundColor)
                 )
                 .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.red, lineWidth: today ? 2 : 0)
                     )
-        }
+        }.onAppear(perform: getColors)
     }
 }
 
