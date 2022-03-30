@@ -211,6 +211,7 @@ public struct DateButton: View {
     public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
         self.date = date
         self.today = Calendar.current.isDateInToday(date)
+        print(date, Calendar.current.isDateInToday(date))
         self.action = action
         self.getColors = getColors
         self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
