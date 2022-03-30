@@ -25,6 +25,7 @@ struct ContentView: View {
             if let b = selectedButton {
                 b.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
                 b.foregroundColor = viewContext.getTextColor(for: selectedDate)
+                print("set background color", b.backgroundColor)
             }
         }
     }
@@ -140,6 +141,14 @@ struct ContentView: View {
             selectedDate = date
             selectedButton = button
         }
+        button.getColors = {
+            guard let c = colors[date] else {
+                return
+            }
+            
+            button.backgroundColor = c.0
+            button.foregroundColor = c.1
+        }
         
         return button
     }
@@ -211,7 +220,6 @@ public struct DateButton: View {
     public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
         self.date = date
         self.today = Calendar.current.isDateInToday(date)
-        print(date, Calendar.current.isDateInToday(date))
         self.action = action
         self.getColors = getColors
         self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
