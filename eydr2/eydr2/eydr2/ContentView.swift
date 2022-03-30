@@ -214,8 +214,8 @@ public struct DateButton: View {
     public  var getColors: () -> Void
     private let dayFormatter: DateFormatter
     
-    @State var backgroundColor = Color.white
-    @State var foregroundColor = Color.black
+    @State public var backgroundColor = Color.white
+    @State public var foregroundColor = Color.black
     
     public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
         self.date = date
@@ -241,7 +241,7 @@ public struct DateButton: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.red, lineWidth: today ? 2 : 0)
                     )
-        }.onAppear(perform: getColors)
+        }.onAppear(perform: { DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: getColors) })
     }
 }
 
