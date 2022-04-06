@@ -23,9 +23,10 @@ struct ContentView: View {
     @State var currentCount = 0 {
         didSet {
             if let b = selectedButton {
-                b.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
-                b.foregroundColor = viewContext.getTextColor(for: selectedDate)
-                print("set background color", b.backgroundColor)
+                b.colors.updateColors(viewContext.item(for: selectedDate))
+//                b.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
+//                b.foregroundColor = viewContext.getTextColor(for: selectedDate)
+//                print("set background color", b.backgroundColor)
             }
         }
     }
@@ -146,8 +147,8 @@ struct ContentView: View {
                 return
             }
             
-            button.backgroundColor = c.0
-            button.foregroundColor = c.1
+            button.colors.backgroundColor = c.0
+            button.colors.foregroundColor = c.1
         }
         
         return button
@@ -207,6 +208,26 @@ public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>
     }
 }
 
+class ColorsHolder: ObservableObject {
+    @Published var backgroundColor = Color.white
+    @Published var foregroundColor = Color.black
+    
+    public func updateColors(_ item: Item?) {
+        let goal = 10.0
+                
+        guard let data = item else {
+            backgroundColor = .white
+            foregroundColor = .black
+            return
+        }
+        
+        let value = max(0, 1.0 - Double(data.exercise) / goal)
+        
+        backgroundColor = Color(red: value, green: value, blue: 1.0)
+        foregroundColor = data.exercise == 0 ? .black : .white
+    }
+}
+
 public struct DateButton: View {
     private let date: Date
     private let today: Bool
@@ -214,8 +235,7 @@ public struct DateButton: View {
     public  var getColors: () -> Void
     private let dayFormatter: DateFormatter
     
-    @State public var backgroundColor = Color.white
-    @State public var foregroundColor = Color.black
+    @ObservedObject var colors = ColorsHolder()
     
     public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
         self.date = date
@@ -230,18 +250,18 @@ public struct DateButton: View {
             Text("00")
                 .padding(8)
                 .foregroundColor(.clear)
-                .background(backgroundColor)
+                .background(colors.backgroundColor)
                 .cornerRadius(8)
                 .accessibilityHidden(true)
                 .overlay(
                     Text(dayFormatter.string(from: date))
-                        .foregroundColor(foregroundColor)
+                        .foregroundColor(colors.foregroundColor)
                 )
                 .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.red, lineWidth: today ? 2 : 0)
                     )
-        }.onAppear(perform: { DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: getColors) })
+        }
     }
 }
 
