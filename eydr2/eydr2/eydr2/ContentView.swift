@@ -17,7 +17,7 @@ struct ContentView: View {
     @State private var selectedDate = Self.now {
         didSet{
             currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
-            setColors(for: selectedDate)
+//            setColors(for: selectedDate)
         }
     }
     @State var currentCount = 0 {
@@ -30,18 +30,21 @@ struct ContentView: View {
             }
         }
     }
-    @State var colors = Colors()
     @State private var selectedButton: DateButton?
     private static var now = Date() // Cache now
+    
+    @State var colors: Colors = [:]
+//    var viewColors: Colors!
 
-    init(calendar: Calendar, colors: Colors) {
+    init(calendar: Calendar, viewColors: Colors) {
         self.calendar = calendar
         self.monthFormatter = DateFormatter(dateFormat: "MMMM", calendar: calendar)
         self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
         self.weekDayFormatter = DateFormatter(dateFormat: "EEEEE", calendar: calendar)
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
         
-        self.colors = colors
+        self.colors = viewColors
+        print(self.colors)
     }
 
     var body: some View {
@@ -133,6 +136,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             print("running appear")
+//            self.colors = viewColors
         }
     }
     
@@ -146,8 +150,7 @@ struct ContentView: View {
             guard let c = colors[date] else {
                 return
             }
-            
-            button.colors.backgroundColor = c.0
+                        button.colors.backgroundColor = c.0
             button.colors.foregroundColor = c.1
         }
         
@@ -225,6 +228,8 @@ class ColorsHolder: ObservableObject {
         
         backgroundColor = Color(red: value, green: value, blue: 1.0)
         foregroundColor = data.exercise == 0 ? .black : .white
+        
+        print("updated colors", backgroundColor, foregroundColor)
     }
 }
 
@@ -261,7 +266,7 @@ public struct DateButton: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.red, lineWidth: today ? 2 : 0)
                     )
-        }
+        }.onAppear(perform: { DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: getColors) })
     }
 }
 
@@ -444,7 +449,7 @@ extension NSManagedObjectContext {
                 colors[date] = (getGradientExerciseColor(for: date), getTextColor(for: date))
             }
         }
-
+        
         return colors
     }
 }
