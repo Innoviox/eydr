@@ -23,7 +23,7 @@ struct ContentView: View {
     @State var currentCount = 0 {
         didSet {
             if let b = selectedButton {
-                b.colors.updateColors(viewContext.item(for: selectedDate))
+//                b.colors.updateColors(viewContext.item(for: selectedDate))
 //                b.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
 //                b.foregroundColor = viewContext.getTextColor(for: selectedDate)
 //                print("set background color", b.backgroundColor)
@@ -34,7 +34,7 @@ struct ContentView: View {
     private static var now = Date() // Cache now
     
     @State var colors: Colors = [:]
-//    var viewColors: Colors!
+    var viewColors: Colors!
 
     init(calendar: Calendar, viewColors: Colors) {
         self.calendar = calendar
@@ -43,8 +43,7 @@ struct ContentView: View {
         self.weekDayFormatter = DateFormatter(dateFormat: "EEEEE", calendar: calendar)
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
         
-        self.colors = viewColors
-        print(self.colors)
+        self.viewColors = viewColors
     }
 
     var body: some View {
@@ -136,7 +135,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             print("running appear")
-//            self.colors = viewColors
+            self.colors = viewColors
         }
     }
     
@@ -146,13 +145,9 @@ struct ContentView: View {
             selectedDate = date
             selectedButton = button
         }
-        button.getColors = {
-            guard let c = colors[date] else {
-                return
-            }
-                        button.colors.backgroundColor = c.0
-            button.colors.foregroundColor = c.1
-        }
+        let c = colors[date] ?? (.white, .black)
+        button.colors.backgroundColor = c.0
+        button.colors.foregroundColor = c.1
         
         return button
     }
@@ -216,6 +211,7 @@ class ColorsHolder: ObservableObject {
     @Published var foregroundColor = Color.black
     
     public func updateColors(_ item: Item?) {
+        print("updating colors")
         let goal = 10.0
                 
         guard let data = item else {
@@ -237,7 +233,7 @@ public struct DateButton: View {
     private let date: Date
     private let today: Bool
     public  var action: () -> Void
-    public  var getColors: () -> Void
+//    public  var getColors: () -> Void
     private let dayFormatter: DateFormatter
     
     @ObservedObject var colors = ColorsHolder()
@@ -246,7 +242,7 @@ public struct DateButton: View {
         self.date = date
         self.today = Calendar.current.isDateInToday(date)
         self.action = action
-        self.getColors = getColors
+        getColors()
         self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
     }
     
@@ -266,7 +262,7 @@ public struct DateButton: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.red, lineWidth: today ? 2 : 0)
                     )
-        }.onAppear(perform: { DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: getColors) })
+        }
     }
 }
 
