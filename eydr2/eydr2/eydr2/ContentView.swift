@@ -23,7 +23,8 @@ struct ContentView: View {
     @State var currentCount = 0 {
         didSet {
             if let b = selectedButton {
-//                b.colors.updateColors(viewContext.item(for: selectedDate))
+                setColors(for: selectedDate)
+                b.colors.updateColors(viewContext.item(for: selectedDate))
 //                b.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
 //                b.foregroundColor = viewContext.getTextColor(for: selectedDate)
 //                print("set background color", b.backgroundColor)
@@ -34,7 +35,6 @@ struct ContentView: View {
     private static var now = Date() // Cache now
     
     @State var colors: Colors = [:]
-    var viewColors: Colors!
 
     init(calendar: Calendar, viewColors: Colors) {
         self.calendar = calendar
@@ -43,7 +43,7 @@ struct ContentView: View {
         self.weekDayFormatter = DateFormatter(dateFormat: "EEEEE", calendar: calendar)
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
         
-        self.viewColors = viewColors
+        self._colors = State(initialValue: viewColors)
     }
 
     var body: some View {
@@ -135,7 +135,6 @@ struct ContentView: View {
         .padding()
         .onAppear {
             print("running appear")
-            self.colors = viewColors
         }
     }
     
