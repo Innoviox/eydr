@@ -5,6 +5,12 @@ let FONT: Font = .system(size: 60)
 
 typealias Colors = [Date: (Color, Color)]
 
+struct DateInfo: Hashable {
+    let year: Int
+    let month: Int
+    let day: Int
+}
+
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -46,7 +52,7 @@ struct ContentView: View {
 //    @State var foregrounds: [Date: Color] = [:]
 //    @State var backgrounds: [Date: Color] = [:]
 //    @State var selected: [Date: Bool] = [:]
-    @State var bindings: [Date: (Color, Color, Bool)] = [:]
+    @State var bindings: [DateInfo: (Color, Color, Bool)] = [:]
     
     init(calendar: Calendar, viewColors: Colors) {
         self.calendar = calendar
@@ -56,13 +62,9 @@ struct ContentView: View {
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
         
 //        self._colors = State(initialValue: viewColors)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy MM dd"
-        formatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
-        var dict: [Date: (Color, Color, Bool)] = [:]
-        for day in calendar.range(of: .day, in: .month, for: Date())! {
-            let dateString = "2022 04 \(day)"
-            dict[formatter.date(from: dateString)!] = (.white, .black, false)
+        var dict: [(Int, Int, Int): (Color, Color, Bool)] = [:]
+        for day in calendar.range(of: .day, in: .month, for: now)! {
+            dict[(now.get(.year), now.get(.month), day)] = (.white, .black, false)
         }
         self._bindings = State(initialValue: dict)
     }
@@ -405,11 +407,17 @@ private extension Date {
         ) ?? self
     }
     
-    func zero() -> Date {
-        let hour = 3600 * self.get(.hour)
-        let min = 60 * self.get(.minute)
-        let sec = self.get(.second)
-        return Date(timeInterval: -Double(hour + min + sec), since: self)
+//    func zero() -> Date {
+//        let hour = 3600 * self.get(.hour)
+//        let min = 60 * self.get(.minute)
+//        let sec = self.get(.second)
+//        let d = Date(timeInterval: -Double(hour + min + sec), since: self)
+//        print(self, d, hour, min, sec)
+//        return d
+//    }
+    
+    func to_tuple() -> (Int, Int, Int) {
+        return (self.get(.year), self.get(.month), self.get(.day))
     }
 }
 
