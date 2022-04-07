@@ -17,14 +17,22 @@ struct ContentView: View {
     @State private var selectedDate = Self.now {
         didSet{
             currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
-//            setColors(for: selectedDate)
+            setColors(for: selectedDate)
+            bindings[oldValue.zero()]?.2 = false
+            bindings[selectedDate.zero()]?.2 = true
+            print(selectedDate)
+            print(selectedDate.zero())
+            print(bindings)
+            print(bindings[selectedDate])
         }
     }
     @State var currentCount = 0 {
         didSet {
             if let b = selectedButton {
+                print("current count is changing!")
                 setColors(for: selectedDate)
-                b.colors.updateColors(viewContext.item(for: selectedDate))
+//                bindings
+//                b.colors.updateColors(viewContext.item(for: selectedDate))
 //                b.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
 //                b.foregroundColor = viewContext.getTextColor(for: selectedDate)
 //                print("set background color", b.backgroundColor)
@@ -34,8 +42,12 @@ struct ContentView: View {
     @State private var selectedButton: DateButton?
     private static var now = Date() // Cache now
     
-    @State var colors: Colors = [:]
-
+//    @State var colors: Colors = [:]
+//    @State var foregrounds: [Date: Color] = [:]
+//    @State var backgrounds: [Date: Color] = [:]
+//    @State var selected: [Date: Bool] = [:]
+    @State var bindings: [Date: (Color, Color, Bool)] = [:]
+    
     init(calendar: Calendar, viewColors: Colors) {
         self.calendar = calendar
         self.monthFormatter = DateFormatter(dateFormat: "MMMM", calendar: calendar)
@@ -43,7 +55,16 @@ struct ContentView: View {
         self.weekDayFormatter = DateFormatter(dateFormat: "EEEEE", calendar: calendar)
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
         
-        self._colors = State(initialValue: viewColors)
+//        self._colors = State(initialValue: viewColors)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy MM dd"
+        formatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
+        var dict: [Date: (Color, Color, Bool)] = [:]
+        for day in calendar.range(of: .day, in: .month, for: Date())! {
+            let dateString = "2022 04 \(day)"
+            dict[formatter.date(from: dateString)!] = (.white, .black, false)
+        }
+        self._bindings = State(initialValue: dict)
     }
 
     var body: some View {
@@ -139,22 +160,114 @@ struct ContentView: View {
     }
     
     func makeButton(for date: Date) -> some View {
-        var button = DateButton(for: date, action: {}, getColors: {}, calendar: self.calendar);
+//        if colors[date] == nil {
+//            colors[date] = (.white, .black)
+//        }
+        
+//        if foregrounds[date] == nil {
+//            foregrounds[date] = .white
+//        }
+//
+//        if backgrounds[date] == nil {
+//            backgrounds[date] = .black
+//        }
+//
+//        selected[date] = false
+        
+//        bindings[date] = (.white, .black, false)
+        
+        let df = DateFormatter(dateFormat: "d", calendar: calendar)
+        let today = Calendar.current.isDateInToday(date)
+//        var button = DateButton(for: date, action: {}, getColors: {}, calendar: self.calendar);
+        var button = DateButton(date: date.zero(), today: today, action: {}, dayFormatter: df,
+                                binding: self.binding(for: date.zero()))
+        
         button.action = {
-            selectedDate = date
+            selectedDate = date.zero()
             selectedButton = button
         }
-        let c = colors[date] ?? (.white, .black)
-        button.colors.backgroundColor = c.0
-        button.colors.foregroundColor = c.1
+//        let c = colors[date] ?? (.white, .black)
+//        button.colors.backgroundColor = c.0
+//        button.colors.foregroundColor = c.1
         
         return button
     }
     
     func setColors(for date: Date) {
-        colors[date] = (viewContext.getGradientExerciseColor(for: date), viewContext.getTextColor(for: date))
+//        colors[date] = (viewContext.getGradientExerciseColor(for: date), viewContext.getTextColor(for: date))
+    }
+    
+    private func binding(for key: Date) -> Binding<(Color, Color, Bool)> {
+        return .init(
+            get: {
+//                if self.bindings[key] == nil {
+//                    self.bindings[key] = (.white, .black, false)
+//                }
+                return self.bindings[key, default: (.white, .black, false)]
+                
+            },
+            set: { self.bindings[key] = $0 })
+    }
+//
+//    private func binding(for key: String) -> Binding<Bool> {
+//        return .init(
+//            get: { self.tags[key, default: false] },
+//            set: { self.tags[key] = $0 })
+//    }
+//
+//    private func binding(for key: String) -> Binding<Bool> {
+//        return .init(
+//            get: { self.tags[key, default: false] },
+//            set: { self.tags[key] = $0 })
+//    }
+}
+
+public struct DateButton: View {
+    public let date: Date
+    public let today: Bool
+    public  var action: () -> Void
+//    public  var getColors: () -> Void
+    public let dayFormatter: DateFormatter
+    
+//    @ObservedObject var colors = ColorsHolder()
+//    @Binding var background: Color
+//    @Binding var foreground: Color
+//    @Binding var selected: Bool
+    
+    @Binding var binding: (Color, Color, Bool)
+    
+//    public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
+//        self.date = date
+//        self.today = Calendar.current.isDateInToday(date)
+//        self.action = action
+//        getColors()
+//        self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
+//    }
+    
+    public var body: some View {
+        return Button(action: self.action) {
+            Text("00")
+                .padding(8)
+                .foregroundColor(.clear)
+                .background(binding.0)
+                .cornerRadius(8)
+                .accessibilityHidden(true)
+                .overlay(
+                    Text(dayFormatter.string(from: date))
+                        .foregroundColor(binding.1)
+                )
+                .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.red, lineWidth: today ? 2 : 0)
+                    )
+                .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.blue, lineWidth: binding.2 ? 1 : 0)
+                    )
+        }
     }
 }
+
 
 // MARK: - Component
 
@@ -228,43 +341,6 @@ class ColorsHolder: ObservableObject {
     }
 }
 
-public struct DateButton: View {
-    private let date: Date
-    private let today: Bool
-    public  var action: () -> Void
-//    public  var getColors: () -> Void
-    private let dayFormatter: DateFormatter
-    
-    @ObservedObject var colors = ColorsHolder()
-    
-    public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
-        self.date = date
-        self.today = Calendar.current.isDateInToday(date)
-        self.action = action
-        getColors()
-        self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
-    }
-    
-    public var body: some View {
-        return Button(action: self.action) {
-            Text("00")
-                .padding(8)
-                .foregroundColor(.clear)
-                .background(colors.backgroundColor)
-                .cornerRadius(8)
-                .accessibilityHidden(true)
-                .overlay(
-                    Text(dayFormatter.string(from: date))
-                        .foregroundColor(colors.foregroundColor)
-                )
-                .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.red, lineWidth: today ? 2 : 0)
-                    )
-        }
-    }
-}
-
 // MARK: - Conformances
 
 extension CalendarView: Equatable {
@@ -327,6 +403,13 @@ private extension Date {
         calendar.date(
             from: calendar.dateComponents([.year, .month], from: self)
         ) ?? self
+    }
+    
+    func zero() -> Date {
+        let hour = 3600 * self.get(.hour)
+        let min = 60 * self.get(.minute)
+        let sec = self.get(.second)
+        return Date(timeInterval: -Double(hour + min + sec), since: self)
     }
 }
 
