@@ -12,7 +12,7 @@ struct ContentView: View {
 
     @State private var selectedDate = DateInfo(date: Self.now) {
         didSet{
-            currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
+            update_current_count()
 
             // update is-selected binding
             bindings[oldValue]?.selected = false
@@ -139,6 +139,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             print("running appear")
+            update_current_count()
         }
     }
     
@@ -170,5 +171,9 @@ struct ContentView: View {
                 return self.bindings[key, default: ColorInfo(.white, .black, false)]
             },
             set: { self.bindings[key] = $0 })
+    }
+    
+    func update_current_count() {
+        currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
     }
 }
