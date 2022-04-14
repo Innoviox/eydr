@@ -32,11 +32,11 @@ public struct DateButton: View {
                 .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.red, lineWidth: today ? 2 : 0)
-                    )
+                            .frame(width: 35, height: 35, alignment: .center))
                 .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.blue, lineWidth: binding.2 ? 1 : 0)
-                    )
+                            .stroke(Color.purple, lineWidth: binding.2 ? 2 : 0)
+                            .frame(width: today ? 32 : 35, height: today ? 32 : 35, alignment: .center))
         }
     }
 }

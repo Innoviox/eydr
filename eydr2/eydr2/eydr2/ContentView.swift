@@ -166,7 +166,6 @@ struct ContentView: View {
         return .init(
             get: {
                 return self.bindings[key, default: (.white, .black, false)]
-                
             },
             set: { self.bindings[key] = $0 })
     }
