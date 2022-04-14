@@ -38,26 +38,3 @@ public struct DateInfo: Hashable {
 }
 
 public typealias Colors = [DateInfo: (Color, Color)]
-
-class ColorsHolder: ObservableObject {
-    @Published var backgroundColor = Color.white
-    @Published var foregroundColor = Color.black
-    
-    public func updateColors(_ item: Item?) {
-        print("updating colors")
-        let goal = 10.0
-                
-        guard let data = item else {
-            backgroundColor = .white
-            foregroundColor = .black
-            return
-        }
-        
-        let value = max(0, 1.0 - Double(data.exercise) / goal)
-        
-        backgroundColor = Color(red: value, green: value, blue: 1.0)
-        foregroundColor = data.exercise == 0 ? .black : .white
-        
-        print("updated colors", backgroundColor, foregroundColor)
-    }
-}

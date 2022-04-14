@@ -12,24 +12,11 @@ public struct DateButton: View {
     public let date: DateInfo
     public let today: Bool
     public  var action: () -> Void
-//    public  var getColors: () -> Void
+
     public let dayFormatter: DateFormatter
     
-//    @ObservedObject var colors = ColorsHolder()
-//    @Binding var background: Color
-//    @Binding var foreground: Color
-//    @Binding var selected: Bool
-    
     @Binding var binding: (Color, Color, Bool)
-    
-//    public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
-//        self.date = date
-//        self.today = Calendar.current.isDateInToday(date)
-//        self.action = action
-//        getColors()
-//        self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
-//    }
-    
+
     public var body: some View {
         return Button(action: self.action) {
             Text("00")

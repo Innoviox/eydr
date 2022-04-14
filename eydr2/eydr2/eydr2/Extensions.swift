@@ -49,15 +49,6 @@ public extension Date {
         ) ?? self
     }
     
-//    func zero() -> Date {
-//        let hour = 3600 * self.get(.hour)
-//        let min = 60 * self.get(.minute)
-//        let sec = self.get(.second)
-//        let d = Date(timeInterval: -Double(hour + min + sec), since: self)
-//        print(self, d, hour, min, sec)
-//        return d
-//    }
-    
     func to_tuple() -> (Int, Int, Int) {
         return (self.get(.year), self.get(.month), self.get(.day))
     }
@@ -87,7 +78,6 @@ public extension NSManagedObjectContext {
             return nil
         }
 
-//        let cdc = date.get(.day, .month, .year)
         for item in fetched {
             let idc = (item.timestamp ?? Date()).get(.day, .month, .year)
             
