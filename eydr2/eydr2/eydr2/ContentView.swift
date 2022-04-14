@@ -21,11 +21,8 @@ struct ContentView: View {
     }
     @State var currentCount = 0 {
         didSet {
-            if let b = selectedButton {
-                print("current count is changing!")
-                bindings[selectedDate]?.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
-                bindings[selectedDate]?.foregroundColor = viewContext.getTextColor(for: selectedDate)
-            }
+            bindings[selectedDate]?.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
+            bindings[selectedDate]?.foregroundColor = viewContext.getTextColor(for: selectedDate)
         }
     }
     @State private var selectedButton: DateButton?
@@ -156,7 +153,7 @@ struct ContentView: View {
             selectedDate = date
             selectedButton = button
         }
-
+        
         return button
     }
     
