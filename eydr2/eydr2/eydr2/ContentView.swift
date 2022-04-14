@@ -2,14 +2,35 @@ import SwiftUI
 import CoreData
 
 let FONT: Font = .system(size: 60)
-
-typealias Colors = [Date: (Color, Color)]
-
-struct DateInfo: Hashable {
+let calendar = Calendar(identifier: .gregorian)
+public struct DateInfo: Hashable {
     let year: Int
     let month: Int
     let day: Int
+    
+    init(date: Date) {
+        year = date.get(.year)
+        month = date.get(.month)
+        day = date.get(.day)
+    }
+    
+    init(date: Date, day: Int) {
+        year = date.get(.year)
+        month = date.get(.month)
+        self.day = day
+    }
+    
+    func to_date() -> Date {
+        var dateComponents = DateComponents()
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        
+        return calendar.date(from: dateComponents)!
+    }
 }
+
+typealias Colors = [DateInfo: (Color, Color)]
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -20,16 +41,12 @@ struct ContentView: View {
     private let weekDayFormatter: DateFormatter
     private let fullFormatter: DateFormatter
 
-    @State private var selectedDate = Self.now {
+    @State private var selectedDate = DateInfo(date: Self.now) {
         didSet{
             currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
             setColors(for: selectedDate)
-            bindings[oldValue.zero()]?.2 = false
-            bindings[selectedDate.zero()]?.2 = true
-            print(selectedDate)
-            print(selectedDate.zero())
-            print(bindings)
-            print(bindings[selectedDate])
+            bindings[oldValue]?.2 = false
+            bindings[selectedDate]?.2 = true
         }
     }
     @State var currentCount = 0 {
@@ -62,9 +79,9 @@ struct ContentView: View {
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
         
 //        self._colors = State(initialValue: viewColors)
-        var dict: [(Int, Int, Int): (Color, Color, Bool)] = [:]
-        for day in calendar.range(of: .day, in: .month, for: now)! {
-            dict[(now.get(.year), now.get(.month), day)] = (.white, .black, false)
+        var dict: [DateInfo: (Color, Color, Bool)] = [:]
+        for day in calendar.range(of: .day, in: .month, for: ContentView.now)! {
+            dict[DateInfo(date: ContentView.now, day: day)] = (.white, .black, false)
         }
         self._bindings = State(initialValue: dict)
     }
@@ -92,7 +109,7 @@ struct ContentView: View {
                 calendar: calendar,
                 date: $selectedDate,
                 content: { date in
-                    makeButton(for: date)
+                    makeButton(for: DateInfo(date: date))
                 },
                 trailing: { date in
                     Text(dayFormatter.string(from: date))
@@ -112,12 +129,12 @@ struct ContentView: View {
                                 guard let newDate = calendar.date(
                                     byAdding: .month,
                                     value: -1,
-                                    to: selectedDate
+                                    to: selectedDate.to_date()
                                 ) else {
                                     return
                                 }
 
-                                selectedDate = newDate
+                                selectedDate = DateInfo(date: newDate)
                             }
                         } label: {
                             Label(
@@ -133,12 +150,12 @@ struct ContentView: View {
                                 guard let newDate = calendar.date(
                                     byAdding: .month,
                                     value: 1,
-                                    to: selectedDate
+                                    to: selectedDate.to_date()
                                 ) else {
                                     return
                                 }
 
-                                selectedDate = newDate
+                                selectedDate = DateInfo(date: newDate)
                             }
                         } label: {
                             Label(
@@ -161,7 +178,7 @@ struct ContentView: View {
         }
     }
     
-    func makeButton(for date: Date) -> some View {
+    func makeButton(for date: DateInfo) -> some View {
 //        if colors[date] == nil {
 //            colors[date] = (.white, .black)
 //        }
@@ -179,13 +196,13 @@ struct ContentView: View {
 //        bindings[date] = (.white, .black, false)
         
         let df = DateFormatter(dateFormat: "d", calendar: calendar)
-        let today = Calendar.current.isDateInToday(date)
+        let today = Calendar.current.isDateInToday(date.to_date())
 //        var button = DateButton(for: date, action: {}, getColors: {}, calendar: self.calendar);
-        var button = DateButton(date: date.zero(), today: today, action: {}, dayFormatter: df,
-                                binding: self.binding(for: date.zero()))
+        var button = DateButton(date: date, today: today, action: {}, dayFormatter: df,
+                                binding: self.binding(for: date))
         
         button.action = {
-            selectedDate = date.zero()
+            selectedDate = date
             selectedButton = button
         }
 //        let c = colors[date] ?? (.white, .black)
@@ -195,11 +212,11 @@ struct ContentView: View {
         return button
     }
     
-    func setColors(for date: Date) {
+    func setColors(for date: DateInfo) {
 //        colors[date] = (viewContext.getGradientExerciseColor(for: date), viewContext.getTextColor(for: date))
     }
     
-    private func binding(for key: Date) -> Binding<(Color, Color, Bool)> {
+    private func binding(for key: DateInfo) -> Binding<(Color, Color, Bool)> {
         return .init(
             get: {
 //                if self.bindings[key] == nil {
@@ -225,7 +242,7 @@ struct ContentView: View {
 }
 
 public struct DateButton: View {
-    public let date: Date
+    public let date: DateInfo
     public let today: Bool
     public  var action: () -> Void
 //    public  var getColors: () -> Void
@@ -255,7 +272,7 @@ public struct DateButton: View {
                 .cornerRadius(8)
                 .accessibilityHidden(true)
                 .overlay(
-                    Text(dayFormatter.string(from: date))
+                    Text(dayFormatter.string(from: date.to_date()))
                         .foregroundColor(binding.1)
                 )
                 .overlay(
@@ -276,7 +293,7 @@ public struct DateButton: View {
 public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>: View {
     // Injected dependencies
     private var calendar: Calendar
-    @Binding private var date: Date
+    @Binding private var date: DateInfo
     private let content: (Date) -> Day
     private let trailing: (Date) -> Trailing
     private let header: (Date) -> Header
@@ -287,7 +304,7 @@ public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>
 
     public init(
         calendar: Calendar,
-        date: Binding<Date>,
+        date: Binding<DateInfo>,
         @ViewBuilder content: @escaping (Date) -> Day,
         @ViewBuilder trailing: @escaping (Date) -> Trailing,
         @ViewBuilder header: @escaping (Date) -> Header,
@@ -302,7 +319,7 @@ public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>
     }
 
     public var body: some View {
-        let month = date.startOfMonth(using: calendar)
+        let month = date.to_date().startOfMonth(using: calendar)
         let days = makeDays()
 
         return LazyVGrid(columns: Array(repeating: GridItem(), count: daysInWeek)) {
@@ -355,7 +372,7 @@ extension CalendarView: Equatable {
 
 private extension CalendarView {
     func makeDays() -> [Date] {
-        guard let monthInterval = calendar.dateInterval(of: .month, for: date),
+        guard let monthInterval = calendar.dateInterval(of: .month, for: date.to_date()),
               let monthFirstWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.start),
               let monthLastWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.end - 1)
         else {
@@ -440,16 +457,16 @@ extension Date {
 }
 
 extension NSManagedObjectContext {
-    func item(for date: Date) -> Item? {
+    func item(for date: DateInfo) -> Item? {
         guard let fetched = allItems() else {
             return nil
         }
 
-        let cdc = date.get(.day, .month, .year)
+//        let cdc = date.get(.day, .month, .year)
         for item in fetched {
             let idc = (item.timestamp ?? Date()).get(.day, .month, .year)
             
-            if cdc.day == idc.day && cdc.month == idc.month && cdc.year == idc.year {
+            if date.day == idc.day && date.month == idc.month && date.year == idc.year {
                 return item
             }
         }
@@ -471,7 +488,7 @@ extension NSManagedObjectContext {
         return nil
     }
     
-    func getGradientExerciseColor(for date: Date) -> Color {
+    func getGradientExerciseColor(for date: DateInfo) -> Color {
         let goal = 10.0
                 
         guard let data = item(for: date) else {
@@ -483,7 +500,7 @@ extension NSManagedObjectContext {
         return Color(red: value, green: value, blue: 1.0)
     }
     
-    func getTextColor(for date: Date) -> Color {
+    func getTextColor(for date: DateInfo) -> Color {
         guard let data = item(for: date) else {
             return .black
         }
@@ -491,11 +508,11 @@ extension NSManagedObjectContext {
         return data.exercise == 0 ? .black : .white
     }
     
-    func increment(_ date: Date) -> Int {
+    func increment(_ date: DateInfo) -> Int {
         var data = item(for: date)
         if data == nil {
             data = Item(context: self)
-            data!.timestamp = date
+            data!.timestamp = date.to_date()
         }
         
         data!.exercise += 1
@@ -509,11 +526,11 @@ extension NSManagedObjectContext {
         return Int(data!.exercise)
     }
     
-    func decrement(_ date: Date) -> Int {
+    func decrement(_ date: DateInfo) -> Int {
         var data = item(for: date)
         if data == nil {
             data = Item(context: self)
-            data!.timestamp = date
+            data!.timestamp = date.to_date()
         }
         
         data!.exercise -= 1
@@ -532,7 +549,8 @@ extension NSManagedObjectContext {
         
         for item in allItems()! {
             if let date = item.timestamp {
-                colors[date] = (getGradientExerciseColor(for: date), getTextColor(for: date))
+                let di = DateInfo(date: date)
+                colors[di] = (getGradientExerciseColor(for: di), getTextColor(for: di))
             }
         }
         
