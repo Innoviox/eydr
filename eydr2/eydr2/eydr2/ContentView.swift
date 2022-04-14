@@ -1,37 +1,6 @@
 import SwiftUI
 import CoreData
 
-let FONT: Font = .system(size: 60)
-let calendar = Calendar(identifier: .gregorian)
-public struct DateInfo: Hashable {
-    let year: Int
-    let month: Int
-    let day: Int
-    
-    init(date: Date) {
-        year = date.get(.year)
-        month = date.get(.month)
-        day = date.get(.day)
-    }
-    
-    init(date: Date, day: Int) {
-        year = date.get(.year)
-        month = date.get(.month)
-        self.day = day
-    }
-    
-    func to_date() -> Date {
-        var dateComponents = DateComponents()
-        dateComponents.year = year
-        dateComponents.month = month
-        dateComponents.day = day
-        
-        return calendar.date(from: dateComponents)!
-    }
-}
-
-typealias Colors = [DateInfo: (Color, Color)]
-
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -43,8 +12,9 @@ struct ContentView: View {
 
     @State private var selectedDate = DateInfo(date: Self.now) {
         didSet{
+            print("selected date is changing")
             currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
-            setColors(for: selectedDate)
+//            setColors(for: selectedDate)
             bindings[oldValue]?.2 = false
             bindings[selectedDate]?.2 = true
         }
@@ -80,10 +50,14 @@ struct ContentView: View {
         
 //        self._colors = State(initialValue: viewColors)
         var dict: [DateInfo: (Color, Color, Bool)] = [:]
+       
         for day in calendar.range(of: .day, in: .month, for: ContentView.now)! {
-            dict[DateInfo(date: ContentView.now, day: day)] = (.white, .black, false)
+            let di = DateInfo(date: ContentView.now, day: day)
+            let def = viewColors[di] ?? (.white, .black)
+            dict[di] = (def.0, def.1, day == ContentView.now.get(.day))
         }
         self._bindings = State(initialValue: dict)
+        print(self._bindings)
     }
 
     var body: some View {
@@ -213,7 +187,8 @@ struct ContentView: View {
     }
     
     func setColors(for date: DateInfo) {
-//        colors[date] = (viewContext.getGradientExerciseColor(for: date), viewContext.getTextColor(for: date))
+        bindings[date]?.0 = viewContext.getGradientExerciseColor(for: date)
+        bindings[date]?.1 = viewContext.getTextColor(for: date)
     }
     
     private func binding(for key: DateInfo) -> Binding<(Color, Color, Bool)> {
@@ -241,319 +216,13 @@ struct ContentView: View {
 //    }
 }
 
-public struct DateButton: View {
-    public let date: DateInfo
-    public let today: Bool
-    public  var action: () -> Void
-//    public  var getColors: () -> Void
-    public let dayFormatter: DateFormatter
-    
-//    @ObservedObject var colors = ColorsHolder()
-//    @Binding var background: Color
-//    @Binding var foreground: Color
-//    @Binding var selected: Bool
-    
-    @Binding var binding: (Color, Color, Bool)
-    
-//    public init(for date: Date, action: @escaping () -> Void, getColors: @escaping () -> Void, calendar: Calendar) {
-//        self.date = date
-//        self.today = Calendar.current.isDateInToday(date)
-//        self.action = action
-//        getColors()
-//        self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
-//    }
-    
-    public var body: some View {
-        return Button(action: self.action) {
-            Text("00")
-                .padding(8)
-                .foregroundColor(.clear)
-                .background(binding.0)
-                .cornerRadius(8)
-                .accessibilityHidden(true)
-                .overlay(
-                    Text(dayFormatter.string(from: date.to_date()))
-                        .foregroundColor(binding.1)
-                )
-                .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.red, lineWidth: today ? 2 : 0)
-                    )
-                .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.blue, lineWidth: binding.2 ? 1 : 0)
-                    )
-        }
-    }
-}
 
 
 // MARK: - Component
 
-public struct CalendarView<Day: View, Header: View, Title: View, Trailing: View>: View {
-    // Injected dependencies
-    private var calendar: Calendar
-    @Binding private var date: DateInfo
-    private let content: (Date) -> Day
-    private let trailing: (Date) -> Trailing
-    private let header: (Date) -> Header
-    private let title: (Date) -> Title
 
-    // Constants
-    private let daysInWeek = 7
 
-    public init(
-        calendar: Calendar,
-        date: Binding<DateInfo>,
-        @ViewBuilder content: @escaping (Date) -> Day,
-        @ViewBuilder trailing: @escaping (Date) -> Trailing,
-        @ViewBuilder header: @escaping (Date) -> Header,
-        @ViewBuilder title: @escaping (Date) -> Title
-    ) {
-        self.calendar = calendar
-        self._date = date
-        self.content = content
-        self.trailing = trailing
-        self.header = header
-        self.title = title
-    }
-
-    public var body: some View {
-        let month = date.to_date().startOfMonth(using: calendar)
-        let days = makeDays()
-
-        return LazyVGrid(columns: Array(repeating: GridItem(), count: daysInWeek)) {
-            Section(header: title(month)) {
-                ForEach(days.prefix(daysInWeek), id: \.self, content: header)
-                ForEach(days, id: \.self) { date in
-                    if calendar.isDate(date, equalTo: month, toGranularity: .month) {
-                        content(date)
-                    } else {
-                        trailing(date)
-                    }
-                }
-            }
-        }
-    }
-}
-
-class ColorsHolder: ObservableObject {
-    @Published var backgroundColor = Color.white
-    @Published var foregroundColor = Color.black
-    
-    public func updateColors(_ item: Item?) {
-        print("updating colors")
-        let goal = 10.0
-                
-        guard let data = item else {
-            backgroundColor = .white
-            foregroundColor = .black
-            return
-        }
-        
-        let value = max(0, 1.0 - Double(data.exercise) / goal)
-        
-        backgroundColor = Color(red: value, green: value, blue: 1.0)
-        foregroundColor = data.exercise == 0 ? .black : .white
-        
-        print("updated colors", backgroundColor, foregroundColor)
-    }
-}
 
 // MARK: - Conformances
 
-extension CalendarView: Equatable {
-    public static func == (lhs: CalendarView<Day, Header, Title, Trailing>, rhs: CalendarView<Day, Header, Title, Trailing>) -> Bool {
-        lhs.calendar == rhs.calendar && lhs.date == rhs.date
-    }
-}
 
-// MARK: - Helpers
-
-private extension CalendarView {
-    func makeDays() -> [Date] {
-        guard let monthInterval = calendar.dateInterval(of: .month, for: date.to_date()),
-              let monthFirstWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.start),
-              let monthLastWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.end - 1)
-        else {
-            return []
-        }
-
-        let dateInterval = DateInterval(start: monthFirstWeek.start, end: monthLastWeek.end)
-        return calendar.generateDays(for: dateInterval)
-    }
-}
-
-private extension Calendar {
-    func generateDates(
-        for dateInterval: DateInterval,
-        matching components: DateComponents
-    ) -> [Date] {
-        var dates = [dateInterval.start]
-
-        enumerateDates(
-            startingAfter: dateInterval.start,
-            matching: components,
-            matchingPolicy: .nextTime
-        ) { date, _, stop in
-            guard let date = date else { return }
-
-            guard date < dateInterval.end else {
-                stop = true
-                return
-            }
-
-            dates.append(date)
-        }
-
-        return dates
-    }
-
-    func generateDays(for dateInterval: DateInterval) -> [Date] {
-        generateDates(
-            for: dateInterval,
-            matching: dateComponents([.hour, .minute, .second], from: dateInterval.start)
-        )
-    }
-}
-
-private extension Date {
-    func startOfMonth(using calendar: Calendar) -> Date {
-        calendar.date(
-            from: calendar.dateComponents([.year, .month], from: self)
-        ) ?? self
-    }
-    
-//    func zero() -> Date {
-//        let hour = 3600 * self.get(.hour)
-//        let min = 60 * self.get(.minute)
-//        let sec = self.get(.second)
-//        let d = Date(timeInterval: -Double(hour + min + sec), since: self)
-//        print(self, d, hour, min, sec)
-//        return d
-//    }
-    
-    func to_tuple() -> (Int, Int, Int) {
-        return (self.get(.year), self.get(.month), self.get(.day))
-    }
-}
-
-private extension DateFormatter {
-    convenience init(dateFormat: String, calendar: Calendar) {
-        self.init()
-        self.dateFormat = dateFormat
-        self.calendar = calendar
-    }
-}
-
-extension Date {
-    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
-    }
-
-    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
-        return calendar.component(component, from: self)
-    }
-}
-
-extension NSManagedObjectContext {
-    func item(for date: DateInfo) -> Item? {
-        guard let fetched = allItems() else {
-            return nil
-        }
-
-//        let cdc = date.get(.day, .month, .year)
-        for item in fetched {
-            let idc = (item.timestamp ?? Date()).get(.day, .month, .year)
-            
-            if date.day == idc.day && date.month == idc.month && date.year == idc.year {
-                return item
-            }
-        }
-        
-        return nil
-    }
-    
-    func allItems() -> [Item]? {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
-        
-        do {
-            let fetched = try fetch(fetchRequest) as! [Item]
-            return fetched
-            
-        } catch {
-            print("Failed to fetch items: \(error)")
-        }
-
-        return nil
-    }
-    
-    func getGradientExerciseColor(for date: DateInfo) -> Color {
-        let goal = 10.0
-                
-        guard let data = item(for: date) else {
-            return .white
-        }
-        
-        let value = max(0, 1.0 - Double(data.exercise) / goal)
-        
-        return Color(red: value, green: value, blue: 1.0)
-    }
-    
-    func getTextColor(for date: DateInfo) -> Color {
-        guard let data = item(for: date) else {
-            return .black
-        }
-        
-        return data.exercise == 0 ? .black : .white
-    }
-    
-    func increment(_ date: DateInfo) -> Int {
-        var data = item(for: date)
-        if data == nil {
-            data = Item(context: self)
-            data!.timestamp = date.to_date()
-        }
-        
-        data!.exercise += 1
-        
-        do {
-            try save()
-        } catch {
-            
-        }
-        
-        return Int(data!.exercise)
-    }
-    
-    func decrement(_ date: DateInfo) -> Int {
-        var data = item(for: date)
-        if data == nil {
-            data = Item(context: self)
-            data!.timestamp = date.to_date()
-        }
-        
-        data!.exercise -= 1
-        
-        do {
-            try save()
-        } catch {
-            
-        }
-        
-        return Int(data!.exercise)
-    }
-    
-    func colorMatrix() -> Colors {
-        var colors = Colors()
-        
-        for item in allItems()! {
-            if let date = item.timestamp {
-                let di = DateInfo(date: date)
-                colors[di] = (getGradientExerciseColor(for: di), getTextColor(for: di))
-            }
-        }
-        
-        return colors
-    }
-}
