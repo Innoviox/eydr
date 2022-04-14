@@ -15,19 +15,19 @@ public struct DateButton: View {
 
     public let dayFormatter: DateFormatter
     
-    @Binding var binding: (Color, Color, Bool)
+    @ObservedObject var binding: ColorInfo
 
     public var body: some View {
         return Button(action: self.action) {
             Text("00")
                 .padding(8)
                 .foregroundColor(.clear)
-                .background(binding.0)
+                .background(binding.backgroundColor)
                 .cornerRadius(8)
                 .accessibilityHidden(true)
                 .overlay(
                     Text(dayFormatter.string(from: date.to_date()))
-                        .foregroundColor(binding.1)
+                        .foregroundColor(binding.foregroundColor)
                 )
                 .overlay(
                         RoundedRectangle(cornerRadius: 8)
@@ -35,7 +35,7 @@ public struct DateButton: View {
                             .frame(width: 35, height: 35, alignment: .center))
                 .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.purple, lineWidth: binding.2 ? 2 : 0)
+                            .stroke(Color.purple, lineWidth: binding.selected ? 2 : 0)
                             .frame(width: today ? 32 : 35, height: today ? 32 : 35, alignment: .center))
         }
     }

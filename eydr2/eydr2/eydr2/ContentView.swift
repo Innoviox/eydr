@@ -12,26 +12,26 @@ struct ContentView: View {
 
     @State private var selectedDate = DateInfo(date: Self.now) {
         didSet{
-            print("selected date is changing")
             currentCount = Int(viewContext.item(for: selectedDate)?.exercise ?? 0)
 
             // update is-selected binding
-            bindings[oldValue]?.2 = false
-            bindings[selectedDate]?.2 = true
+            bindings[oldValue]?.selected = false
+            bindings[selectedDate]?.selected = true
         }
     }
     @State var currentCount = 0 {
         didSet {
             if let b = selectedButton {
                 print("current count is changing!")
-                setColors(for: selectedDate)
+                bindings[selectedDate]?.backgroundColor = viewContext.getGradientExerciseColor(for: selectedDate)
+                bindings[selectedDate]?.foregroundColor = viewContext.getTextColor(for: selectedDate)
             }
         }
     }
     @State private var selectedButton: DateButton?
     private static var now = Date() // Cache now
 
-    @State var bindings: [DateInfo: (Color, Color, Bool)] = [:]
+    @State var bindings: [DateInfo: ColorInfo] = [:]
     
     init(calendar: Calendar, viewColors: Colors) {
         self.calendar = calendar
@@ -40,15 +40,14 @@ struct ContentView: View {
         self.weekDayFormatter = DateFormatter(dateFormat: "EEEEE", calendar: calendar)
         self.fullFormatter = DateFormatter(dateFormat: "MMMM dd, yyyy", calendar: calendar)
         
-        var dict: [DateInfo: (Color, Color, Bool)] = [:]
+        var dict: [DateInfo: ColorInfo] = [:]
        
         for day in calendar.range(of: .day, in: .month, for: ContentView.now)! {
             let di = DateInfo(date: ContentView.now, day: day)
             let def = viewColors[di] ?? (.white, .black)
-            dict[di] = (def.0, def.1, day == ContentView.now.get(.day))
+            dict[di] = ColorInfo(def.0, def.1, day == ContentView.now.get(.day))
         }
         self._bindings = State(initialValue: dict)
-        print(self._bindings)
     }
 
     var body: some View {
@@ -144,10 +143,13 @@ struct ContentView: View {
     }
     
     func makeButton(for date: DateInfo) -> some View {
+//        if self.bindings[date] == nil {
+//            self.bindings[date] = ColorInfo(.white, .black, false)
+//        }
         let df = DateFormatter(dateFormat: "d", calendar: calendar)
         let today = Calendar.current.isDateInToday(date.to_date())
         var button = DateButton(date: date, today: today, action: {}, dayFormatter: df,
-                                binding: self.binding(for: date))
+                                binding: self.bindings[date, default: ColorInfo(.white, .black, false)])
         
         button.action = {
             selectedDate = date
@@ -158,14 +160,14 @@ struct ContentView: View {
     }
     
     func setColors(for date: DateInfo) {
-        bindings[date]?.0 = viewContext.getGradientExerciseColor(for: date)
-        bindings[date]?.1 = viewContext.getTextColor(for: date)
+        bindings[date]?.backgroundColor = viewContext.getGradientExerciseColor(for: date)
+        bindings[date]?.foregroundColor = viewContext.getTextColor(for: date)
     }
     
-    private func binding(for key: DateInfo) -> Binding<(Color, Color, Bool)> {
+    private func binding(for key: DateInfo) -> Binding<ColorInfo> {
         return .init(
             get: {
-                return self.bindings[key, default: (.white, .black, false)]
+                return self.bindings[key, default: ColorInfo(.white, .black, false)]
             },
             set: { self.bindings[key] = $0 })
     }

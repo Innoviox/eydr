@@ -135,7 +135,7 @@ public extension NSManagedObjectContext {
         do {
             try save()
         } catch {
-            
+            print("couldn't save")
         }
         
         return Int(data!.exercise)
@@ -153,7 +153,7 @@ public extension NSManagedObjectContext {
         do {
             try save()
         } catch {
-            
+            print("couldn't save")
         }
         
         return Int(data!.exercise)

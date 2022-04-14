@@ -37,4 +37,17 @@ public struct DateInfo: Hashable {
     }
 }
 
+class ColorInfo: ObservableObject {
+    @Published var backgroundColor = Color.white
+    @Published var foregroundColor = Color.black
+    @Published var selected = false
+    
+    init(_ backgroundColor: Color, _ foregroundColor: Color, _ selected: Bool) {
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
+        self.selected = selected
+    }
+}
+
+
 public typealias Colors = [DateInfo: (Color, Color)]
